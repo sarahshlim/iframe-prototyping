@@ -178,6 +178,20 @@
     padding: 16px clamp(16px, 4vw, 32px) 40px;
     box-sizing: border-box;
   }
+  a.entity-prompts-link {
+    display: inline-block;
+    background: var(--primary);
+    color: white !important;
+    text-decoration: none;
+    padding: 10px 22px;
+    border-radius: 4px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  a.entity-prompts-link:hover {
+    background: var(--primary-light);
+  }
 </style>
 </head>
 <body>
@@ -238,32 +252,15 @@
 
   <hr class="divider">
 
-  <!-- Stuff vs. Rights/Promises reflection -->
-  <div class="module-header" style="margin-top: 8px;">
-    <h2 style="font-size: 22px;">Stuff, Rights, and Promises</h2>
-    <p class="module-subtitle">An observation about what crosses the boundary</p>
-  </div>
-
-  <p class="prose">
-    Look back at the arrows you just built. In some exchanges, tangible things &mdash; stuff &mdash; cross the boundary in both directions: a supplier delivers goods, the entity pays cash. But in many exchanges, what crosses in one direction is not stuff at all. It is a right or a promise.
-  </p>
-  <p class="prose">
-    An owner puts resources in. What goes out? Not stuff &mdash; a right to control the entity and a residual claim on whatever is left. A lender puts cash in. What goes out? A promise to repay, with interest, on a schedule. A customer receives goods but might not pay immediately &mdash; what comes in is a promise to pay later (accounts receivable). The first step when something crosses the boundary is to analyze it: dig out the information in the transaction. What actually changed hands? Was it stuff, a right, or a promise? It does not matter whether there was a formal contract or a handshake &mdash; the analytical task is the same.
-  </p>
-  <p class="prose">
-    This habit of looking at each exchange and asking <em>what actually crossed, in each direction</em> is the analytical skill that the rest of the course will build on. The notation used in journal entries (Module 8) is simply a way to formalize it. For now, practice the habit with the prompts below.
-  </p>
-
-  <p class="prose" style="font-size: 14px; color: #888; font-style: italic; margin-bottom: 24px;">
-    These are not test questions. There are no right answers. Your responses are saved locally on your device.
-  </p>
-
-  <div id="reflection-prompts"></div>
-
-  <hr class="divider">
-
   <p class="prose" style="font-style: italic; color: #666;">
     Adapted from a diagram by Shyam Sunder, James L. Frank Professor of Accounting, Economics, and Finance, Emeritus, Yale School of Management.
+  </p>
+
+  <p class="prose" style="margin-top: 24px;">
+    When you are ready, continue to <strong>Stuff, Rights, and Promises</strong> and the writing prompts. Your responses stay on this device.
+  </p>
+  <p style="margin-top: 16px;">
+    <a href="entity-diagram-prompts.html" class="entity-prompts-link">Continue to reflection prompts &rarr;</a>
   </p>
 
 </div><!-- /content -->
@@ -705,92 +702,6 @@ function EntityDiagram() {
 // ===== MOUNT =====
 const root = ReactDOM.createRoot(document.getElementById('react-root'));
 root.render(<EntityDiagram />);
-</script>
-
-<!-- Reflection prompts (vanilla JS, same card styling as reflect2) -->
-<script>
-(function() {
-  var STORAGE_KEY = 'prework_reflect_entity';
-  var PROMPTS = [
-    'Pick two parties from the diagram where "stuff" crosses the boundary in both directions. What makes these exchanges straightforward to record?',
-    'Now pick an exchange where stuff crosses in one direction but a right or a promise crosses in the other. What is the right or promise, and how is it different from stuff?',
-    'When a lender provides cash and receives a promise to repay, and an owner provides cash and receives a residual claim \u2014 both put in the same thing (cash), but what they get back is very different. In your own words, what is the difference?',
-    'Think of a transaction you have been part of \u2014 buying something, lending money to a friend, investing. What crossed in each direction? Was any of it a right or a promise rather than stuff?'
-  ];
-
-  var saved = {};
-  try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e) {}
-
-  var container = document.getElementById('reflection-prompts');
-  if (!container) return;
-
-  // Progress summary
-  var summaryDiv = document.createElement('div');
-  summaryDiv.style.cssText = 'font-family: "Helvetica Neue", Arial, sans-serif; font-size: 13px; color: #888; margin-bottom: 24px; padding: 12px 16px; background: #f0f4f8; border-radius: 5px; display: flex; align-items: center; gap: 8px;';
-  var countSpan = document.createElement('span');
-  countSpan.style.cssText = 'font-weight: 600; color: #00356b;';
-  countSpan.id = 'entityReflectCount';
-  summaryDiv.appendChild(countSpan);
-  summaryDiv.appendChild(document.createTextNode(' prompts answered'));
-  container.appendChild(summaryDiv);
-
-  function updateCount() {
-    var c = 0;
-    try { var s = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); for (var k in s) { if (s[k] && s[k].trim().length > 0) c++; } } catch(e) {}
-    countSpan.textContent = c + ' of ' + PROMPTS.length;
-  }
-
-  PROMPTS.forEach(function(promptText, i) {
-    var card = document.createElement('div');
-    card.style.cssText = 'background: white; border: 1px solid #e0e0e0; border-radius: 6px; padding: 24px; margin-bottom: 20px; transition: border-color 0.2s;';
-    if (saved[i] && saved[i].trim().length > 0) card.style.borderColor = '#22c55e';
-
-    var num = document.createElement('div');
-    num.style.cssText = 'font-family: "Helvetica Neue", Arial, sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; color: #bd5319; margin-bottom: 8px;';
-    num.textContent = 'Prompt ' + (i + 1) + ' of ' + PROMPTS.length;
-    card.appendChild(num);
-
-    var text = document.createElement('div');
-    text.style.cssText = 'font-size: 16px; line-height: 1.6; margin-bottom: 14px;';
-    text.textContent = promptText;
-    card.appendChild(text);
-
-    var ta = document.createElement('textarea');
-    ta.style.cssText = 'width: 100%; min-height: 100px; padding: 12px 14px; border: 1px solid #ddd; border-radius: 5px; font-family: Georgia, "Times New Roman", serif; font-size: 15px; line-height: 1.6; color: #2a2a2a; resize: vertical; box-sizing: border-box;';
-    ta.placeholder = 'Write your response here...';
-    ta.value = saved[i] || '';
-
-    var saveTimer = null;
-    ta.addEventListener('input', function() {
-      if (saveTimer) clearTimeout(saveTimer);
-      var idx = i, cardEl = card, taEl = ta;
-      saveTimer = setTimeout(function() {
-        try {
-          var s = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-          s[idx] = taEl.value;
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
-        } catch(e) {}
-        cardEl.style.borderColor = taEl.value.trim().length > 0 ? '#22c55e' : '#e0e0e0';
-        updateCount();
-      }, 800);
-    });
-    ta.addEventListener('blur', function() {
-      if (saveTimer) clearTimeout(saveTimer);
-      try {
-        var s = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-        s[i] = ta.value;
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
-      } catch(e) {}
-      card.style.borderColor = ta.value.trim().length > 0 ? '#22c55e' : '#e0e0e0';
-      updateCount();
-    });
-
-    card.appendChild(ta);
-    container.appendChild(card);
-  });
-
-  updateCount();
-})();
 </script>
 
 </body>
