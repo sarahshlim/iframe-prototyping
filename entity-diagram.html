@@ -471,7 +471,7 @@ function EntityCircle({ highlight }) {
           <animate attributeName="stroke-dashoffset" from="0" to="24" dur="2s" repeatCount="indefinite" />
         </circle>
       )}
-      <circle cx={ECX} cy={ECY} r={ER} fill="#00356b" />
+      <circle cx={ECX} cy={ECY} r={ER} fill="#00329d" />
       <text x={ECX} y={ECY - 8} textAnchor="middle" fill="white"
         fontFamily="'Helvetica Neue', Arial, sans-serif" fontSize="22" fontWeight="300">
         The Entity
@@ -487,7 +487,7 @@ function EntityCircle({ highlight }) {
 function PartyCircle({ id, visible, active, highlight }) {
   const c = PARTIES[id];
   if (!c) return null;
-  const fill = highlight ? '#bd5319' : (active ? '#00356b' : '#b0c4d8');
+  const fill = highlight ? '#bd5319' : (active ? '#00329d' : '#b0c4d8');
   return (
     <g style={{ opacity: visible ? 1 : 0, transition: 'opacity 0.5s' }}>
       <circle cx={c.cx} cy={c.cy} r={c.r} fill={fill} />
@@ -627,12 +627,12 @@ function EntityDiagram() {
 
         {step.type === 'qa' && (
           <div>
-            <p style={{ fontSize: '15px', lineHeight: '1.7', color: '#00356b', fontWeight: '600', margin: '0 0 12px' }}>
+            <p style={{ fontSize: '15px', lineHeight: '1.7', color: '#00329d', fontWeight: '600', margin: '0 0 12px' }}>
               {step.question}
             </p>
             {!revealed ? (
               <button onClick={() => setRevealed(true)} style={{
-                background: '#00356b', color: 'white', border: 'none', borderRadius: '5px',
+                background: '#00329d', color: 'white', border: 'none', borderRadius: '5px',
                 padding: '10px 20px', fontSize: '14px', fontWeight: '600', fontFamily: 'inherit',
                 cursor: 'pointer'
               }}>
@@ -659,7 +659,7 @@ function EntityDiagram() {
             &larr; Back
           </button>
           <button onClick={advance} disabled={isLast && revealed} style={{
-            background: (isLast && revealed) ? '#ccc' : '#00356b',
+            background: (isLast && revealed) ? '#ccc' : '#00329d',
             color: 'white', border: 'none', borderRadius: '4px',
             padding: '6px 14px', fontSize: '12px', fontWeight: '600',
             cursor: (isLast && revealed) ? 'default' : 'pointer', fontFamily: 'inherit'

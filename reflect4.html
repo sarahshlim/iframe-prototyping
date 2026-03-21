@@ -726,7 +726,7 @@ function ChangeSummary({ label, opening, closing }) {
       marginBottom: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'center'
     }}>
       <span>{label}</span>
-      <span style={{ color: '#00356b' }}>{fmt(closing)} &minus; {fmt(opening)} = {fmt(change)}</span>
+      <span style={{ color: '#00329d' }}>{fmt(closing)} &minus; {fmt(opening)} = {fmt(change)}</span>
     </div>
   );
 }
@@ -835,10 +835,10 @@ function TimelineSVG({ step, total }) {
   const fillW = Math.max(0, Math.min(380, pct * 380));
   return (
     <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ maxWidth: W, display: 'block', margin: '0 auto 16px' }}>
-      <rect x="50" y="10" width="30" height="50" rx="3" fill="#00356b" />
-      <text x="65" y="72" textAnchor="middle" fontSize="9" fill="#00356b" fontFamily="'Helvetica Neue', Arial, sans-serif" fontWeight="600">Opening</text>
-      <rect x="460" y="10" width="30" height="50" rx="3" fill={step >= total ? '#00356b' : '#ccc'} />
-      <text x="475" y="72" textAnchor="middle" fontSize="9" fill={step >= total ? '#00356b' : '#999'} fontFamily="'Helvetica Neue', Arial, sans-serif" fontWeight="600">Closing</text>
+      <rect x="50" y="10" width="30" height="50" rx="3" fill="#00329d" />
+      <text x="65" y="72" textAnchor="middle" fontSize="9" fill="#00329d" fontFamily="'Helvetica Neue', Arial, sans-serif" fontWeight="600">Opening</text>
+      <rect x="460" y="10" width="30" height="50" rx="3" fill={step >= total ? '#00329d' : '#ccc'} />
+      <text x="475" y="72" textAnchor="middle" fontSize="9" fill={step >= total ? '#00329d' : '#999'} fontFamily="'Helvetica Neue', Arial, sans-serif" fontWeight="600">Closing</text>
       <line x1="90" y1="35" x2="450" y2="35" stroke="#e0e0e0" strokeWidth="2" />
       <line x1="90" y1="35" x2={90 + fillW} y2="35" stroke="#286dc0" strokeWidth="3" />
       <circle cx={90 + fillW} cy="35" r="5" fill="#286dc0" />
