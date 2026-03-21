@@ -5,7 +5,7 @@ Static pages (minimal chrome) for OLI Torus **Webpage** blocks.
 ## Pages
 
 - `reflect4.html` — transaction sequencer
-- `entity-diagram.html` — entity boundary diagram (links to prompts page)
+- `entity-diagram.html` — entity boundary diagram (standalone)
 - `entity-diagram-prompts.html` — Stuff, Rights, and Promises + writing prompts
 
 Shared: `shared.css`, `shared.js`, `config.js`
