@@ -398,9 +398,9 @@
     .main-grid {
       grid-template-columns: 1fr;
     }
-    .main-grid .bs-open  { grid-column: 1; grid-row: 1; display: none; }
-    .main-grid .txn-area { grid-column: 1; grid-row: 1; }
-    .main-grid .bs-close { grid-column: 1; grid-row: 2; }
+    .main-grid .bs-open  { grid-column: 1; grid-row: 1; }
+    .main-grid .txn-area { grid-column: 1; grid-row: 2; }
+    .main-grid .bs-close { grid-column: 1; grid-row: 3; }
     .accounts-grid { grid-template-columns: 1fr 1fr 1fr; }
     .identity-bar { font-size: 13px; gap: 8px; }
     .identity-bar .id-num { font-size: 16px; min-width: 48px; }
@@ -642,19 +642,29 @@ function AccountsGrid({ accounts, prevAccounts, revealedAccounts, newAccounts, a
     );
   }
 
-  // Empty state: entity exists but no transactions yet
+  // Empty state: show full chart at $0 (opening / before any txn)
   if (isEmpty) {
+    function zeroRow(key) {
+      return (
+        <div className="acct-line" key={key}>
+          <span>{ACCT_LABELS[key]}</span>
+          <span className="acct-val">{fmt(accounts[key])}</span>
+        </div>
+      );
+    }
     return (
       <div className="accounts-grid">
         <div className="acct-col">
           <h4>Assets</h4>
-          <div className="bs-empty-msg">The entity exists but has no recorded activity yet.</div>
+          {allAssets.map(zeroRow)}
         </div>
         <div className="acct-col">
           <h4>Liabilities</h4>
+          {allLiabs.map(zeroRow)}
         </div>
         <div className="acct-col">
           <h4>Equities</h4>
+          {allEqs.map(zeroRow)}
         </div>
       </div>
     );
