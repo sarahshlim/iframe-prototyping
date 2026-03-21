@@ -308,34 +308,35 @@
     font-style: italic;
   }
 
+  /* Flex: title bar fixed, only inner body scrolls (sticky breaks in some iframes) */
   .decomp-scroll-box {
     position: relative;
     isolation: isolate;
+    display: flex;
+    flex-direction: column;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     background: #fafafa;
     padding: 0;
     max-height: 360px;
-    overflow-y: auto;
+    overflow: hidden;
     margin-top: 16px;
   }
-  /* Full-width sticky header for the whole scroll panel */
   .decomp-scroll-head {
-    position: sticky;
-    top: 0;
-    z-index: 5;
+    flex-shrink: 0;
     margin: 0;
     padding: 16px 20px;
     background-color: #ffffff;
     border-bottom: 1px solid #e0e0e0;
     border-radius: 8px 8px 0 0;
-    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.07);
-    transform: translateZ(0);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   }
   .decomp-scroll-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
     padding: 16px;
+    -webkit-overflow-scrolling: touch;
   }
   .decomp-scroll-box h3 {
     font-family: 'Helvetica Neue', Arial, sans-serif;
