@@ -126,8 +126,8 @@
   .pdf-modal-window {
     background: white;
     border-radius: 10px;
-    width: 80vw;
-    height: 85vh;
+    width: min(90vw, 960px);
+    max-height: 90vh;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -161,10 +161,22 @@
     transition: filter 0.15s;
   }
   .pdf-modal-close:hover { filter: brightness(0.85); }
-  .pdf-modal-frame {
+  .pdf-modal-body {
     flex: 1;
-    border: none;
-    width: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: #f0f0f0;
+  }
+  .pdf-modal-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 3px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    display: block;
   }
 
   /* ===== PROBLEM TEXT ===== */
@@ -640,7 +652,7 @@
 
     <!-- PDF thumbnail — top right corner -->
     <div class="pdf-thumb-wrap">
-      <button class="pdf-thumb-btn" onclick="openPdf()" title="View Apple FY25 Q3 Financial Statements">
+      <button class="pdf-thumb-btn" onclick="togglePdf()" title="View Apple FY25 Q3 Financial Statements">
         <div class="pdf-doc-icon">
           <span class="pdf-doc-icon-text">PDF</span>
           <div class="pdf-doc-lines">
@@ -1191,12 +1203,11 @@
       <span class="pdf-modal-title">Apple FY25 Q3 &mdash; Consolidated Financial Statements</span>
       <span style="width:14px;"></span>
     </div>
-    <iframe
-      class="pdf-modal-frame"
-      id="pdfFrame"
-      src=""
-      title="Apple Financial Statements PDF">
-    </iframe>
+    <div class="pdf-modal-body">
+      <img class="pdf-modal-img" src="apple-fy25-q3-p1.png" alt="Apple FY25 Q3 — Page 1">
+      <img class="pdf-modal-img" src="apple-fy25-q3-p2.png" alt="Apple FY25 Q3 — Page 2">
+      <img class="pdf-modal-img" src="apple-fy25-q3-p3.png" alt="Apple FY25 Q3 — Page 3">
+    </div>
   </div>
 </div>
 
@@ -1340,15 +1351,10 @@
   });
 
   // ===== PDF MODAL =====
-  var PDF_SRC = 'file:///Users/gaogaode/Downloads/45-700Topic2Homework%20APPLE%20FY25_Q3_Consolidated_Financial_Statements.pdf';
-
-  function openPdf() {
-    var frame = document.getElementById('pdfFrame');
-    if (!frame.src || frame.src === window.location.href) {
-      frame.src = PDF_SRC;
-    }
-    document.getElementById('pdfModal').classList.add('open');
-    document.body.style.overflow = 'hidden';
+  function togglePdf() {
+    var modal = document.getElementById('pdfModal');
+    var isOpen = modal.classList.toggle('open');
+    document.body.style.overflow = isOpen ? 'hidden' : '';
   }
 
   function closePdf() {
@@ -1356,13 +1362,11 @@
     document.body.style.overflow = '';
   }
 
-
-
   function closePdfOutside(e) {
     if (e.target === document.getElementById('pdfModal')) closePdf();
   }
 
-  // Close PDF modal on Escape
+  // Close on Escape
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closePdf();
   });
