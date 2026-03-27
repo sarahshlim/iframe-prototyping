@@ -721,31 +721,39 @@
       </div>
       <!-- ag-flow: grid-row 3/8, spans rows 3,4,5,6,7 -->
       <div class="ag-flow">
-        <!-- = between CFO (row 2) and NI+Adj below, aligned to NI column -->
+        <!-- = connector: spacer + 76px slot centered over NI axis -->
         <div class="flow-conn-row">
           <span class="flow-spacer"></span>
-          <span class="flow-op-lg" style="display:inline-block; transform:rotate(90deg);">=</span>
+          <span style="width:76px; display:flex; justify-content:center; align-items:center;">
+            <span class="flow-op-lg" style="transform:rotate(90deg);">=</span>
+          </span>
         </div>
-        <div class="flow-row-aligned">
-          <span class="flow-spacer"></span>
-          <div class="flow-item-v">
-            <span class="flow-label">Net Income</span>
-            <input class="bs-input" id="b-ni-nca" type="text" placeholder="…">
-          </div>
-          <span class="flow-op-pm">+/&minus;</span>
-          <div class="flow-item-v">
-            <span class="flow-label">Adjustments</span>
-            <input class="bs-input" id="b-adj" type="text" placeholder="…">
+        <!-- NI+Adj white box: spacer reduced by 14px, left-pad added back to extend white card leftward -->
+        <div style="display:flex; align-items:center;">
+          <span style="width:22px; flex-shrink:0;"></span>
+          <div style="background:white; padding:6px 10px 6px 14px; display:flex; align-items:center; gap:6px;">
+            <div class="flow-item-v">
+              <span class="flow-label">Net Income</span>
+              <input class="bs-input" id="b-ni-nca" type="text" placeholder="…">
+            </div>
+            <span class="flow-op-pm">+/&minus;</span>
+            <div class="flow-item-v">
+              <span class="flow-label">Adjustments</span>
+              <input class="bs-input" id="b-adj" type="text" placeholder="…">
+            </div>
           </div>
         </div>
+        <!-- <> connector: spacer + 76px slot centered over NI axis -->
         <div class="flow-conn-row">
           <span class="flow-spacer"></span>
-          <span class="flow-conn">&lt;&gt;</span>
+          <span style="width:76px; display:flex; justify-content:center; align-items:center;">
+            <span class="flow-conn">&lt;&gt;</span>
+          </span>
         </div>
-        <!-- IS white box: horizontal NI = Rev − Exp, full column width (margin cancels ag-flow padding) -->
-        <div style="background:white; padding:6px 10px; margin:0 -10px; box-sizing:border-box;">
-          <div class="flow-row-aligned">
-            <span class="flow-spacer"></span>
+        <!-- IS white box: spacer reduced by 14px, left-pad added back to extend white card leftward -->
+        <div style="display:flex; align-items:center;">
+          <span style="width:22px; flex-shrink:0;"></span>
+          <div style="background:white; padding:6px 10px 6px 14px; display:flex; align-items:center; gap:6px;">
             <div class="flow-item-v">
               <span class="flow-label">Net Income</span>
               <input class="bs-input" id="b-ni-tl" type="text" placeholder="…">
@@ -762,9 +770,12 @@
             </div>
           </div>
         </div>
+        <!-- <> connector: spacer + 76px slot centered over NI axis -->
         <div class="flow-conn-row">
           <span class="flow-spacer"></span>
-          <span class="flow-conn">&lt;&gt;</span>
+          <span style="width:76px; display:flex; justify-content:center; align-items:center;">
+            <span class="flow-conn">&lt;&gt;</span>
+          </span>
         </div>
       </div>
       <div class="ag ag-r cell-white" style="grid-row:3; display:flex; align-items:center; gap:8px;">
