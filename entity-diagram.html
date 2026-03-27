@@ -642,13 +642,9 @@ function EntityDiagram() {
               {step.question}
             </p>
             {!revealed ? (
-              <button onClick={() => setRevealed(true)} style={{
-                background: '#00329d', color: 'white', border: 'none', borderRadius: '5px',
-                padding: '10px 20px', fontSize: '14px', fontWeight: '600', fontFamily: 'inherit',
-                cursor: 'pointer'
-              }}>
-                Reveal
-              </button>
+              <p style={{ fontSize: '13px', color: '#aaa', fontStyle: 'italic', margin: 0 }}>
+                Reveal to see the answer.
+              </p>
             ) : (
               <p style={{ fontSize: '14.5px', lineHeight: '1.7', color: '#444', margin: 0,
                 borderLeft: '3px solid ' + (step.direction === 'in' ? '#1a8a6a' : '#bd5319'),
