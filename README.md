@@ -17,6 +17,7 @@ Deploy from **`main`** / **`/(root)`**, then for example:
 - `https://gaodeg-source.github.io/iframe-testing/reflect4.html`
 - `https://gaodeg-source.github.io/iframe-testing/entity-diagram.html`
 - `https://gaodeg-source.github.io/iframe-testing/entity-diagram-prompts.html`
+- `https://gaodeg-source.github.io/iframe-testing/homework.html`
 
 ## Update
 
