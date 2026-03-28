@@ -1145,7 +1145,7 @@ function TransactionSequencer() {
               <div>
                 {(txn.is.length > 0 || txn.cfs.length > 0 || txn.sce.length > 0) && (
                   <div style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.4px', color: '#888', marginBottom: 6, marginTop: 28 }}>
-                    Flow Statement(s) Explaining the Change
+                    Flow Statement(s) Decomposing the Change
                   </div>
                 )}
                 {txn.is.length > 0 && <span className="txn-tag tag-is">Income Statement</span>}
