@@ -1,27 +1,62 @@
-# iframe-prototyping (fork created from Gaode's iframe-testing repo)
+# iframe-prototyping
 
-Static pages (minimal chrome) for OLI Torus **Webpage** blocks.
+Static HTML/CSS/JS prototypes for OLI Torus **Webpage** blocks.
 
-## Pages
+This repo is used to prototype and revise interactive accounting learning activities before they are finalized for implementation.
 
-- `reflect4.html` — transaction sequencer
-- `entity-diagram.html` — entity boundary diagram (standalone)
+## Main prototype files
+
+- `reflect4.html` — original / baseline transaction sequencer
+- `reflect4_sarah.html` — revised working version of the transaction sequencer
+- `entity-diagram.html` — entity boundary diagram
 - `entity-diagram-prompts.html` — Stuff, Rights, and Promises + writing prompts
+- `homework.html` — homework / related page
+- `reflect4_rick.html` — Rick’s original design reference
 
-Shared: `shared.css`, `shared.js`, `config.js`
+## Shared files
 
-## GitHub Pages
+- `shared.css` — shared styling
+- `shared.js` — shared logic/helpers
+- `config.js` — configuration values
+- image files (`.png`) — supporting visuals for activities
 
-Deploy from **`main`** / **`/(root)`**, then for example:
+## Current working branch
 
-- `https://gaodeg-source.github.io/iframe-testing/reflect4.html`
-- `https://gaodeg-source.github.io/iframe-testing/entity-diagram.html`
-- `https://gaodeg-source.github.io/iframe-testing/entity-diagram-prompts.html`
-- `https://gaodeg-source.github.io/iframe-testing/homework.html`
-- Rick's original design: `https://gaodeg-source.github.io/iframe-testing/reflect4_rick.html`
+- Main working branch for prototype revisions: `sarah-activity-edits`
 
-## Update
+## GitHub Pages preview
 
-Copy updated files from your prototype and push to `main`.
+This repo is published through GitHub Pages.
 
-**Note:** For a second Torus **Webpage** block, point it at `entity-diagram-prompts.html` if you want prompts on a separate course page. Prompt answers use the same `localStorage` key as before (`prework_reflect_entity`) only when both pages are served from the **same origin** (same GitHub Pages site).
+Repo root:
+- `https://sarahshlim.github.io/iframe-prototyping/`
+
+Prototype pages:
+- `https://sarahshlim.github.io/iframe-prototyping/reflect4.html`
+- `https://sarahshlim.github.io/iframe-prototyping/reflect4_sarah.html`
+- `https://sarahshlim.github.io/iframe-prototyping/entity-diagram.html`
+- `https://sarahshlim.github.io/iframe-prototyping/entity-diagram-prompts.html`
+- `https://sarahshlim.github.io/iframe-prototyping/homework.html`
+
+## Notes on workflow
+
+- `reflect4_sarah.html` is the main sandbox for design/content/layout revisions.
+- `reflect4.html` should remain as a stable baseline reference unless intentional changes are needed.
+- Most visual/layout revisions should be made in:
+  - `reflect4_sarah.html`
+  - `shared.css` (only when a shared styling change is necessary)
+- Avoid changing `shared.js` or `config.js` unless the change truly requires logic updates.
+
+## Purpose of the transaction-sequencer prototype
+
+The goal of the transaction-sequencer activity is to help learners see the architecture of financial statements:
+
+- the two balance sheets are snapshots of financial position at different dates
+- the flow statements explain what changed and why
+- the Statement of Changes in Equities explains the full change in equities
+- the Cash Flow Statement explains the full change in cash
+- the Income Statement explains net income, which is one part of the change in equities
+
+## Status
+
+This repo contains working prototypes and iterative revisions. Some files may be experimental or in progress.
