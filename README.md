@@ -1,4 +1,4 @@
-# iframe-prototyping (fork created from Gaode's iframe-testing)
+# iframe-prototyping (fork created from Gaode's iframe-testing repo)
 
 Static pages (minimal chrome) for OLI Torus **Webpage** blocks.
 
