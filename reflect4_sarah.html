@@ -68,11 +68,12 @@
     display: grid;
     grid-template-columns: 1fr 1.8fr 1fr;
     gap: 14px;
+    margin-top: 16px;
     margin-bottom: 16px;
     align-items: start;
   }
   .main-grid .bs-open { grid-column: 1; grid-row: 1; }
-  .main-grid .txn-area { grid-column: 2; grid-row: 1; }
+  .main-grid .decomp-area { grid-column: 2; grid-row: 1; }
   .main-grid .bs-close { grid-column: 3; grid-row: 1; }
 
   .bs-col-header {
@@ -325,9 +326,7 @@
     border-radius: 8px;
     background: #fafafa;
     padding: 0;
-    max-height: 360px;
     overflow: hidden;
-    margin-top: 16px;
   }
   .decomp-scroll-head {
     flex-shrink: 0;
@@ -365,8 +364,14 @@
     line-height: 1.5;
   }
   /* === PROGRESSIVE REVEAL === */
-  .acct-line.acct-new {
-    background-color: rgba(255, 215, 0, 0.28);
+  .acct-line.acct-new-pos {
+    background-color: rgba(34, 197, 94, 0.15);
+    border-radius: 3px;
+    padding: 3px 4px;
+    margin: 0 -4px;
+  }
+  .acct-line.acct-new-neg {
+    background-color: rgba(220, 38, 38, 0.12);
     border-radius: 3px;
     padding: 3px 4px;
     margin: 0 -4px;
@@ -663,7 +668,7 @@ function AccountsGrid({ accounts, prevAccounts, revealedAccounts, newAccounts, a
     const changed = showComparison && oldVal !== newVal;
 
     let cls = 'acct-line';
-    if (isAffected) cls += ' acct-new';
+    if (isAffected) cls += affectedAccounts.get(key) >= 0 ? ' acct-new-pos' : ' acct-new-neg';
     if (isDimmed) cls += ' acct-dimmed';
 
     return (
@@ -825,16 +830,25 @@ function TipLine({ label, val, tip }) {
 }
 
 // ===== DECOMPOSITION TRACKER =====
-function ChangeSummary({ label, opening, closing }) {
+function ChangeSummary({ label, noun, color, opening, closing }) {
   const change = closing - opening;
   return (
     <div style={{
-      fontFamily: "'Inter', system-ui, sans-serif", fontSize: 13, fontWeight: 600,
-      color: '#555', background: '#f8f8f8', borderRadius: 4, padding: '8px 12px',
-      marginBottom: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+      fontFamily: "'Inter', system-ui, sans-serif",
+      background: '#f8f8f8', borderRadius: 4, padding: '10px 12px',
+      marginBottom: 35, border: '1px solid #e8e8e8'
     }}>
-      <span>{label}</span>
-      <span style={{ color: '#00329d' }}>{fmt(closing)} &minus; {fmt(opening)} = {fmt(change)}</span>
+      <div style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.4px', color: '#aaa', marginBottom: 6 }}>
+        What this statement explains
+      </div>
+      <div style={{ fontSize: 12, color: '#555', lineHeight: 1.6 }}>
+        <span>Opening {noun}: <strong style={{ color }}>{fmt(opening)}</strong></span>
+        <span style={{ margin: '0 6px', color: '#bbb' }}>&rarr;</span>
+        <span>Closing {noun}: <strong style={{ color }}>{fmt(closing)}</strong></span>
+      </div>
+      <div style={{ fontSize: 12, color: '#555', marginTop: 2 }}>
+        Net change: <strong style={{ color }}>{fmt(change)}</strong>
+      </div>
     </div>
   );
 }
@@ -851,7 +865,6 @@ function DecompTracker({ isEntries, cfsEntries, sceEntries, netIncome, step, acc
   return (
     <div>
       {/* 1. Flow panel (p2): intro → Change in Equities row → SCE detail card */}
-      <ChangeSummary label="Change in Equities" opening={0} closing={closingEquities} />
       <div className="decomp-section decomp-sce">
         <h4>Statement of Changes in Equities</h4>
         <div className="decomp-line"><span>Opening equities</span><span className="dl-val">{fmt(0)}</span></div>
@@ -868,18 +881,19 @@ function DecompTracker({ isEntries, cfsEntries, sceEntries, netIncome, step, acc
             <span className="dl-val">{fmt(netIncome)}</span>
           </div>
         )}
+        {sceEntries.length === 0 && netIncome === 0 && <div className="decomp-empty">No entries yet</div>}
         {(sceEntries.length > 0 || netIncome !== 0) && (
           <div className="decomp-total" style={{ color: '#92400e' }}>
             <span>Closing equities</span><span>{fmt(closingEquities)}</span>
           </div>
         )}
       </div>
+      <ChangeSummary label="Change in Equities" noun="equities" color="#92400e" opening={0} closing={closingEquities} />
 
       {/* 2. Cash Flow Statement — decomposition of change in cash */}
-      <ChangeSummary label="Change in Cash" opening={0} closing={closingCash} />
       <div className="decomp-section decomp-cfs">
         <h4>Cash Flow Statement</h4>
-        {cfsEntries.length === 0 ? <div className="decomp-empty">No cash movements yet</div> :
+        {cfsEntries.length === 0 ? <div className="decomp-empty">No entries yet</div> :
           ['operating', 'investing', 'financing'].map(cat => {
             const items = cfsByCat[cat];
             if (items.length === 0) return null;
@@ -915,19 +929,12 @@ function DecompTracker({ isEntries, cfsEntries, sceEntries, netIncome, step, acc
           </div>
         )}
       </div>
+      <ChangeSummary label="Change in Cash" noun="cash" color="#166534" opening={0} closing={closingCash} />
 
       {/* 3. Income Statement — decomposes the "Net income" line above */}
-      <div style={{
-        fontFamily: "'Inter', system-ui, sans-serif", fontSize: 13, fontWeight: 600,
-        color: '#555', background: '#f8f8f8', borderRadius: 4, padding: '8px 12px',
-        marginBottom: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'center'
-      }}>
-        <span>Net Income</span>
-        <span style={{ color: '#1e40af' }}>{fmt(netIncome)}</span>
-      </div>
       <div className="decomp-section decomp-is" style={{ borderLeft: '3px solid #1e40af' }}>
         <h4>Income Statement <span style={{ fontWeight: 400, fontSize: 11, color: '#888' }}>&mdash; detail of Net Income above</span></h4>
-        {isEntries.length === 0 ? <div className="decomp-empty">No operating entries yet</div> :
+        {isEntries.length === 0 ? <div className="decomp-empty">No entries yet</div> :
           isEntries.map((e, i) => (
             step === 4 && e.label === 'Service revenue'
               ? <TipLine key={i} label={e.label} val={e.amt} tip="The $43,000 is recognized as service revenue, reflecting value earned from providing services during the period." />
@@ -946,6 +953,18 @@ function DecompTracker({ isEntries, cfsEntries, sceEntries, netIncome, step, acc
             <span>Net Income</span><span>{fmt(netIncome)}</span>
           </div>
         )}
+      </div>
+      <div style={{
+        fontFamily: "'Inter', system-ui, sans-serif",
+        background: '#f8f8f8', borderRadius: 4, padding: '10px 12px',
+        marginBottom: 35, border: '1px solid #e8e8e8'
+      }}>
+        <div style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.4px', color: '#aaa', marginBottom: 6 }}>
+          What this statement explains
+        </div>
+        <div style={{ fontSize: 12, color: '#555' }}>
+          Net income: <strong style={{ color: '#1e40af' }}>{fmt(netIncome)}</strong>
+        </div>
       </div>
     </div>
   );
@@ -1053,8 +1072,8 @@ function TransactionSequencer() {
   revealedAccounts.forEach(k => { if (!prevRevealed.has(k)) newAccounts.add(k); });
   const currentTxnIndex = stage.type === 'txn' ? stage.txnIndex : -1;
   const affectedAccounts = currentTxnIndex >= 0
-    ? new Set(Object.keys(TXNS[currentTxnIndex].effects))
-    : new Set();
+    ? new Map(Object.entries(TXNS[currentTxnIndex].effects))
+    : new Map();
   const isEmpty = txnsProcessed === 0;
 
   // Collect decomposition entries
@@ -1093,7 +1112,89 @@ function TransactionSequencer() {
       <TimelineSVG step={txnsProcessed} total={totalTxns} />
       <IdentityBar accounts={currentAccounts} />
 
-      {/* === THREE-COLUMN GRID: opening BS | center content | closing BS === */}
+      {/* === TRANSACTION CARD: full-width below identity bar === */}
+      <div className="txn-area">
+        {stage.type === 'intro' && (
+          <div className="txn-card">
+            <div className="txn-label">Starting Point</div>
+            <div className="txn-desc">
+              A new entity has just been formed. It has no assets, no liabilities, and no equities. Everything is zero. The identity holds trivially: $0 &minus; $0 = $0.
+            </div>
+            <p style={{ fontSize: 12, color: '#555', lineHeight: 1.6 }}>
+              Click <strong>Next</strong> to begin recording transactions. Watch what happens to the identity and the closing balance sheet as each one is processed.
+            </p>
+          </div>
+        )}
+
+        {stage.type === 'txn' && (
+          <div className="txn-card">
+            <div className="txn-label">Transaction {txnDisplayNum} of {totalTxns}</div>
+            <div className="txn-desc">{txn.desc}</div>
+            <div className="txn-effects">
+              {Object.keys(txn.effects).map(k => (
+                <div className="eff-line" key={k}>
+                  <span className="eff-acct">{ACCT_LABELS[k]}</span>
+                  <span className={'eff-amt ' + (txn.effects[k] > 0 ? 'pos' : 'neg')}>
+                    {fmtChange(txn.effects[k])}
+                  </span>
+                </div>
+              ))}
+              {Object.values(txn.effects).some(v => v < 0) && (
+                <div style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 10, color: '#aaa', fontStyle: 'italic', marginTop: 8 }}>
+                  ( ) denotes a negative amount
+                </div>
+              )}
+            </div>
+            <div>
+              {(txn.is.length > 0 || txn.cfs.length > 0 || txn.sce.length > 0) && (
+                <div style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.4px', color: '#888', marginBottom: 6, marginTop: 28 }}>
+                  AFFECTED FLOW STATEMENT(S)
+                </div>
+              )}
+              {txn.is.length > 0 && <span className="txn-tag tag-is">Income Statement</span>}
+              {txn.cfs.length > 0 && <span className="txn-tag tag-cfs">Cash Flow Statement</span>}
+              {txn.sce.length > 0 && <span className="txn-tag tag-sce">Statement of Changes in Equities</span>}
+              {txn.is.length === 0 && txn.cfs.length === 0 && txn.sce.length === 0 && (
+                <span style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 12, color: '#999', fontStyle: 'italic' }}>
+                  No cash moved. No revenue or expense. Only the balance sheet changes.
+                </span>
+              )}
+            </div>
+          </div>
+        )}
+
+        {stage.type === 'reveal' && (
+          <div className="reveal-box">
+            <h3>The Statements Emerge</h3>
+            <p style={{ fontSize: 15, lineHeight: 1.7, color: '#333', marginBottom: 12 }}>
+              Every transaction you stepped through changed the closing balance sheet on the right. The flow statements below are not new information. They are the same transactions you already saw, organized into three decompositions of the difference between the opening and closing balance sheets.
+            </p>
+            <p style={{ fontSize: 15, lineHeight: 1.7, color: '#333', marginBottom: 12 }}>
+              Notice two numbers: <strong>Net Income is {fmt(netIncome)}</strong>, but <strong>Cash from Operations is {fmt(cfsEntries.filter(e => e.cat === 'operating').reduce((s, e) => s + e.amt, 0))}</strong>. They are different. Of the $43,000 in revenue, only $25,000 was collected in cash &mdash; $18,000 is still owed by customers. And the $4,000 depreciation expense involved no cash at all. The income statement reflects conventions about when to recognize revenue and expense. The cash flow statement just counts what moved.
+            </p>
+          </div>
+        )}
+
+        {/* Nav buttons */}
+        <div className="nav-buttons" style={{ marginTop: 12 }}>
+          <button className="btn-back" disabled={isFirst} onClick={() => setStep(s => s - 1)}>
+            &larr; Back
+          </button>
+          {!isLast && (
+            <button className="btn-next" onClick={() => setStep(s => s + 1)}>
+              Next &rarr;
+            </button>
+          )}
+        </div>
+      </div>
+
+      {txnsProcessed > 0 && (
+        <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 12, color: '#888', lineHeight: 1.6, marginTop: 10 }}>
+          * In practice, most people encounter the Income Statement first &mdash; it is what investors, managers, and analysts tend to care about most, and standard presentations reflect that. We show the statements in a different order here to make the logical structure visible. The Statement of Changes in Equities is the full bridge between the two Balance Sheets. The Cash Flow Statement decomposes the change in Cash. The Income Statement decomposes one line of the Statement of Changes in Equities: Net Income.
+        </p>
+      )}
+
+      {/* === THREE-COLUMN GRID: opening BS | decomp tracker | closing BS === */}
       <div className="main-grid">
 
         {/* LEFT COLUMN: opening balance sheet */}
@@ -1158,30 +1259,6 @@ function TransactionSequencer() {
                 )}
               </div>
             </div>
-          )}
-
-          {stage.type === 'reveal' && (
-            <div className="reveal-box">
-              <h3>The Statements Emerge</h3>
-              <p style={{ fontSize: 15, lineHeight: 1.7, color: '#333', marginBottom: 12 }}>
-                Every transaction you stepped through changed the closing balance sheet on the right. The flow statements below are not new information. They are the same transactions you already saw, organized into three decompositions of the difference between the opening and closing balance sheets.
-              </p>
-              <p style={{ fontSize: 15, lineHeight: 1.7, color: '#333', marginBottom: 12 }}>
-                Notice two numbers: <strong>Net Income is {fmt(netIncome)}</strong>, but <strong>Cash from Operations is {fmt(cfsEntries.filter(e => e.cat === 'operating').reduce((s, e) => s + e.amt, 0))}</strong>. They are different. Of the $43,000 in revenue, only $25,000 was collected in cash &mdash; $18,000 is still owed by customers. And the $4,000 depreciation expense involved no cash at all. The income statement reflects conventions about when to recognize revenue and expense. The cash flow statement just counts what moved.
-              </p>
-            </div>
-          )}
-
-          {/* Nav buttons */}
-          <div className="nav-buttons" style={{ marginTop: 12 }}>
-            <button className="btn-back" disabled={isFirst} onClick={() => setStep(s => s - 1)}>
-              &larr; Back
-            </button>
-            {!isLast && (
-              <button className="btn-next" onClick={() => setStep(s => s + 1)}>
-                Next &rarr;
-              </button>
-            )}
           </div>
         </div>
 
@@ -1201,30 +1278,6 @@ function TransactionSequencer() {
         </div>
 
       </div>{/* /main-grid */}
-
-      {/* === FLOW STATEMENTS (scrollable box below) === */}
-      {txnsProcessed > 0 && (
-        <div className="decomp-scroll-box">
-          <div className="decomp-scroll-head">
-            <h3>Flow Statements &mdash; decomposing the change</h3>
-          </div>
-          <div className="decomp-scroll-body">
-            <DecompTracker
-              isEntries={isEntries}
-              cfsEntries={cfsEntries}
-              sceEntries={sceEntries}
-              netIncome={netIncome}
-              step={step}
-              accounts={currentAccounts}
-            />
-          </div>
-        </div>
-      )}
-      {txnsProcessed > 0 && (
-        <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 12, color: '#888', lineHeight: 1.6, marginTop: 10 }}>
-          * In practice, most people encounter the income statement first &mdash; it is what investors, managers, and analysts tend to care about most, and standard presentations reflect that. We show the statements in a different order here to make the logical structure visible: the statement of changes in equities is the full bridge between the two balance sheets, the cash flow statement decomposes the change in cash, and the income statement decomposes one line of the equities statement &mdash; net income.
-        </p>
-      )}
       </div>{/* /reflect4-fixed-min */}
       </div>{/* /reflect4-grid-wrap */}
     </div>
