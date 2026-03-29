@@ -1210,56 +1210,21 @@ function TransactionSequencer() {
           />
         </div>
 
-        {/* CENTER COLUMN */}
-        <div className="txn-area">
-          {stage.type === 'intro' && (
-            <div className="txn-card">
-              <div className="txn-label">Starting Point</div>
-              <div className="txn-desc">
-                A new entity has just been formed. It has no assets, no liabilities, and no equities. Everything is zero. The identity holds trivially: $0 &minus; $0 = $0.
-              </div>
-              <p style={{ fontSize: 12, color: '#555', lineHeight: 1.6 }}>
-                Click <strong>Next</strong> to begin recording transactions. Watch what happens to the identity and the closing balance sheet as each one is processed.
-              </p>
+        {/* CENTER COLUMN: decomp tracker */}
+        <div className="decomp-area">
+          <div className="bs-col-header">Flow Statements: Decompositions of the Change</div>
+          <div className="decomp-scroll-box">
+            <div className="decomp-scroll-body">
+              <DecompTracker
+                isEntries={isEntries}
+                cfsEntries={cfsEntries}
+                sceEntries={sceEntries}
+                netIncome={netIncome}
+                step={step}
+                accounts={currentAccounts}
+              />
             </div>
-          )}
-
-          {stage.type === 'txn' && (
-            <div className="txn-card">
-              <div className="txn-label">Transaction {txnDisplayNum} of {totalTxns}</div>
-              <div className="txn-desc">{txn.desc}</div>
-              <div className="txn-effects">
-                {Object.keys(txn.effects).map(k => (
-                  <div className="eff-line" key={k}>
-                    <span className="eff-acct">{ACCT_LABELS[k]}</span>
-                    <span className={'eff-amt ' + (txn.effects[k] > 0 ? 'pos' : 'neg')}>
-                      {fmtChange(txn.effects[k])}
-                    </span>
-                  </div>
-                ))}
-                {Object.values(txn.effects).some(v => v < 0) && (
-                  <div style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 10, color: '#aaa', fontStyle: 'italic', marginTop: 8 }}>
-                    ( ) denotes a negative amount
-                  </div>
-                )}
-              </div>
-              <div>
-                {(txn.is.length > 0 || txn.cfs.length > 0 || txn.sce.length > 0) && (
-                  <div style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.4px', color: '#888', marginBottom: 6, marginTop: 28 }}>
-                    Flow Statement(s) Decomposing the Change
-                  </div>
-                )}
-                {txn.is.length > 0 && <span className="txn-tag tag-is">Income Statement</span>}
-                {txn.cfs.length > 0 && <span className="txn-tag tag-cfs">Cash Flow Statement</span>}
-                {txn.sce.length > 0 && <span className="txn-tag tag-sce">Statement of Changes in Equities</span>}
-                {txn.is.length === 0 && txn.cfs.length === 0 && txn.sce.length === 0 && (
-                  <span style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 12, color: '#999', fontStyle: 'italic' }}>
-                    No cash moved. No revenue or expense. Only the balance sheet changes.
-                  </span>
-                )}
-              </div>
-            </div>
-          )}
+          </div>
         </div>
 
         {/* RIGHT COLUMN: closing balance sheet */}
