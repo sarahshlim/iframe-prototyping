@@ -52,7 +52,7 @@ Prototype pages:
 The goal of the transaction-sequencer activity is to help learners see the architecture of financial statements:
 
 - the two balance sheets are snapshots of financial position at different dates
-- the flow statements explain what changed and why
+- the three flow statements (Statement of Changes in Equities, Cash Flow Statement, Income Statement) decompose the difference between the two balance sheets
 - the Statement of Changes in Equities explains the full change in equities
 - the Cash Flow Statement explains the full change in cash
 - the Income Statement explains net income, which is one part of the change in equities
