@@ -47,7 +47,7 @@ Prototype pages:
   - `shared.css` (only when a shared styling change is necessary)
 - Avoid changing `shared.js` or `config.js` unless the change truly requires logic updates.
 
-## Purpose of the transaction-sequencer prototype
+## Purpose of the Transaction Sequencer prototype ('System in Action: Simple Case' activity)
 
 The goal of the transaction-sequencer activity is to help learners see the architecture of financial statements:
 
