@@ -141,7 +141,7 @@
     margin-right: 4px;
     margin-bottom: 4px;
   }
-  .tag-is { background: #ede9fe; color: #6d28d9; }
+  .tag-is { background: #dbeafe; color: #1e40af; }
   .tag-cfs { background: #dcfce7; color: #166534; }
   .tag-sce { background: #fef3c7; color: #92400e; }
 
@@ -203,7 +203,7 @@
     letter-spacing: 0.4px;
     margin-bottom: 8px;
   }
-  .decomp-is h4 { color: #6d28d9; }
+  .decomp-is h4 { color: #1e40af; }
   .decomp-cfs h4 { color: #166534; }
   .decomp-sce h4 { color: #92400e; }
   .decomp-line {
@@ -260,8 +260,8 @@
   .btn-next:disabled { background: #ccc; cursor: default; }
 
   .reveal-box {
-    background: white;
-    border: 1px solid #e0e0e0;
+    background: var(--primary-faint);
+    border: 2px solid var(--primary);
     border-radius: 8px;
     padding: 20px;
     margin: 20px 0;
@@ -523,8 +523,7 @@ const TXNS = [
     effects: { cash: 25000, receivables: 18000, retained: 43000 },
     is: [{ label: 'Service revenue', amt: 43000 }],
     cfs: [{ label: 'Cash from customers', amt: 25000, cat: 'operating' }],
-    sce: [],
-    sceChip: true
+    sce: []
   },
   {
     id: 'pay-salaries',
@@ -787,7 +786,7 @@ function TipLine({ label, val, tip }) {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={() => setOpen(false)}
         style={{
-          background: 'rgba(0, 50, 157, 0.20)', borderRadius: 3,
+          background: 'rgba(255, 215, 0, 0.25)', borderRadius: 3,
           padding: '3px 6px', margin: '2px -6px', cursor: 'default',
         }}
       >
@@ -831,7 +830,7 @@ function TipLine({ label, val, tip }) {
 }
 
 // ===== DECOMPOSITION TRACKER =====
-function ChangeSummary({ label, noun, color, changeLabel, opening, closing }) {
+function ChangeSummary({ label, noun, color, opening, closing }) {
   const change = closing - opening;
   return (
     <div style={{
@@ -839,7 +838,7 @@ function ChangeSummary({ label, noun, color, changeLabel, opening, closing }) {
       background: '#f8f8f8', borderRadius: 4, padding: '10px 12px',
       marginBottom: 35, border: '1px solid #e8e8e8'
     }}>
-      <div style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.4px', color: '#555', marginBottom: 6 }}>
+      <div style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.4px', color: '#aaa', marginBottom: 6 }}>
         What this statement explains
       </div>
       <div style={{ fontSize: 12, color: '#555', lineHeight: 1.6 }}>
@@ -848,7 +847,7 @@ function ChangeSummary({ label, noun, color, changeLabel, opening, closing }) {
         <span>Closing {noun}: <strong style={{ color }}>{fmt(closing)}</strong></span>
       </div>
       <div style={{ fontSize: 12, color: '#555', marginTop: 2 }}>
-        {changeLabel}: <strong style={{ color }}>{fmt(change)}</strong>
+        Net change: <strong style={{ color }}>{fmt(change)}</strong>
       </div>
     </div>
   );
@@ -866,8 +865,9 @@ function DecompTracker({ isEntries, cfsEntries, sceEntries, netIncome, step, acc
   return (
     <div>
       {/* 1. Flow panel (p2): intro → Change in Equities row → SCE detail card */}
-      <div className="decomp-section decomp-sce" style={{ borderLeft: '3px solid #92400e' }}>
+      <div className="decomp-section decomp-sce">
         <h4>Statement of Changes in Equities</h4>
+        <div className="decomp-line"><span>Opening equities</span><span className="dl-val">{fmt(0)}</span></div>
         {sceEntries.map((e, i) => (
           step === 1 && e.label === 'Owner investment'
             ? <TipLine key={i} label={e.label} val={e.amt} tip="The $100,000 owner investment increases equity, reflecting capital provided by the owner to start the business." />
@@ -876,9 +876,10 @@ function DecompTracker({ isEntries, cfsEntries, sceEntries, netIncome, step, acc
             : <div className="decomp-line" key={i}><span>&ensp;{e.label}</span><span className="dl-val">{fmt(e.amt)}</span></div>
         ))}
         {netIncome !== 0 && (
-          step === 4
-            ? <TipLine label="Net income" val={netIncome} tip="Net Income appears in the Statement of Changes in Equities because it is one part of the change in equities. The Income Statement explains how net income was generated, while the Statement of Changes in Equities shows how it contributes to the movement from opening equities to current equities." />
-            : <div className="decomp-line"><span>&ensp;Net income</span><span className="dl-val">{fmt(netIncome)}</span></div>
+          <div className="decomp-line" style={{ color: '#1e40af', fontWeight: 500 }}>
+            <span>&ensp;Net income &#x25BE;</span>
+            <span className="dl-val">{fmt(netIncome)}</span>
+          </div>
         )}
         {sceEntries.length === 0 && netIncome === 0 && <div className="decomp-empty">No entries yet</div>}
         {(sceEntries.length > 0 || netIncome !== 0) && (
@@ -887,10 +888,10 @@ function DecompTracker({ isEntries, cfsEntries, sceEntries, netIncome, step, acc
           </div>
         )}
       </div>
-      <ChangeSummary label="Change in Equities" noun="equities" color="#92400e" changeLabel="Net change in equities" opening={0} closing={closingEquities} />
+      <ChangeSummary label="Change in Equities" noun="equities" color="#92400e" opening={0} closing={closingEquities} />
 
       {/* 2. Cash Flow Statement — decomposition of change in cash */}
-      <div className="decomp-section decomp-cfs" style={{ borderLeft: '3px solid #166534' }}>
+      <div className="decomp-section decomp-cfs">
         <h4>Cash Flow Statement</h4>
         {cfsEntries.length === 0 ? <div className="decomp-empty">No entries yet</div> :
           ['operating', 'investing', 'financing'].map(cat => {
@@ -903,11 +904,11 @@ function DecompTracker({ isEntries, cfsEntries, sceEntries, netIncome, step, acc
                 </div>
                 {items.map((e, i) => (
                   step === 1 && e.label === 'Owner investment'
-                    ? <TipLine key={i} label={e.label} val={e.amt} tip="The $100,000 cash is classified as a financing inflow because it comes from the owner as a source of funding. It is not generated by the entity's operations." />
+                    ? <TipLine key={i} label={e.label} val={e.amt} tip="The $100,000 received from the owner provides funding for the entity, so it is reported as a financing cash inflow." />
                   : step === 2 && e.label === 'Bank borrowing'
-                    ? <TipLine key={i} label={e.label} val={e.amt} tip="The $30,000 cash is classified as a financing inflow because it comes from borrowing. It increases available cash, but it does not come from earning revenue." />
+                    ? <TipLine key={i} label={e.label} val={e.amt} tip="The $30,000 borrowed from the bank provides funding for the entity, so the cash inflow is reported as a financing activity." />
                   : step === 3 && e.label === 'Equipment purchase'
-                    ? <TipLine key={i} label={e.label} val={e.amt} tip="The $20,000 cash is classified as an investing outflow because it is used to acquire equipment, a long-term resource the entity will use in future periods." />
+                    ? <TipLine key={i} label={e.label} val={e.amt} tip="The $20,000 used to buy equipment reflects spending on resources the entity will use over time, so it is reported as an investing cash outflow." />
                   : step === 4 && e.label === 'Cash from customers'
                     ? <TipLine key={i} label={e.label} val={e.amt} tip="The $25,000 of cash collected from customers comes from the entity's business operations, so it is reported as an operating cash inflow." />
                   : step === 5 && e.label === 'Salaries paid'
@@ -915,7 +916,7 @@ function DecompTracker({ isEntries, cfsEntries, sceEntries, netIncome, step, acc
                   : step === 6 && e.label === 'Collections from customers'
                     ? <TipLine key={i} label={e.label} val={e.amt} tip="The $12,000 of cash collected from customers relates to prior revenue from the entity's business operations, so it is reported as an operating cash inflow." />
                   : step === 8 && e.label === 'Dividend paid'
-                    ? <TipLine key={i} label={e.label} val={e.amt} tip="The $5,000 cash is classified as a financing outflow because it is paid as a dividend to the owner. Dividend payments reduce cash, but they are distributions to owners rather than operating expenses, so they do not affect net income." />
+                    ? <TipLine key={i} label={e.label} val={e.amt} tip="The $5,000 paid to the owner is a distribution of profits, so it is reported as a financing cash outflow." />
                     : <div className="decomp-line" key={i}><span>&ensp;{e.label}</span><span className="dl-val">{fmt(e.amt)}</span></div>
                 ))}
               </div>
@@ -928,11 +929,11 @@ function DecompTracker({ isEntries, cfsEntries, sceEntries, netIncome, step, acc
           </div>
         )}
       </div>
-      <ChangeSummary label="Change in Cash" noun="cash" color="#166534" changeLabel="Net change in cash" opening={0} closing={closingCash} />
+      <ChangeSummary label="Change in Cash" noun="cash" color="#166534" opening={0} closing={closingCash} />
 
       {/* 3. Income Statement — decomposes the "Net income" line above */}
-      <div className="decomp-section decomp-is" style={{ borderLeft: '3px solid #6d28d9' }}>
-        <h4>Income Statement</h4>
+      <div className="decomp-section decomp-is" style={{ borderLeft: '3px solid #1e40af' }}>
+        <h4>Income Statement <span style={{ fontWeight: 400, fontSize: 11, color: '#888' }}>&mdash; detail of Net Income above</span></h4>
         {isEntries.length === 0 ? <div className="decomp-empty">No entries yet</div> :
           isEntries.map((e, i) => (
             step === 4 && e.label === 'Service revenue'
@@ -940,15 +941,15 @@ function DecompTracker({ isEntries, cfsEntries, sceEntries, netIncome, step, acc
               : step === 5 && e.label === 'Salary expense'
               ? <TipLine key={i} label={e.label} val={e.amt} tip="$15,000 is recognized as salary expense, reflecting the cost of labor used to operate the entity during the period." />
               : step === 7 && e.label === 'Depreciation expense'
-              ? <TipLine key={i} label={e.label} val={e.amt} tip="The $4,000 is classified as depreciation expense. Depreciation records part of the equipment's cost as an expense in the periods that benefit from its use, rather than all at once when the equipment is purchased. No cash is paid when this expense is recorded." />
+              ? <TipLine key={i} label={e.label} val={e.amt} tip="The $4,000 is recognized as depreciation expense, reflecting the allocation of equipment cost as it is used over time." />
               : <div className="decomp-line" key={i}>
-              <span>&ensp;{e.label}</span>
+              <span>{e.label}</span>
               <span className="dl-val">{fmt(e.amt)}</span>
             </div>
           ))
         }
         {isEntries.length > 0 && (
-          <div className="decomp-total" style={{ color: '#6d28d9' }}>
+          <div className="decomp-total" style={{ color: '#1e40af' }}>
             <span>Net Income</span><span>{fmt(netIncome)}</span>
           </div>
         )}
@@ -958,11 +959,11 @@ function DecompTracker({ isEntries, cfsEntries, sceEntries, netIncome, step, acc
         background: '#f8f8f8', borderRadius: 4, padding: '10px 12px',
         marginBottom: 35, border: '1px solid #e8e8e8'
       }}>
-        <div style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.4px', color: '#555', marginBottom: 6 }}>
+        <div style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.4px', color: '#aaa', marginBottom: 6 }}>
           What this statement explains
         </div>
         <div style={{ fontSize: 12, color: '#555' }}>
-          Net income: <strong style={{ color: '#6d28d9' }}>{fmt(netIncome)}</strong>
+          Net income: <strong style={{ color: '#1e40af' }}>{fmt(netIncome)}</strong>
         </div>
       </div>
     </div>
@@ -1100,10 +1101,10 @@ function TransactionSequencer() {
           marginBottom: 8,
         }}
       >
-        Step through the first year of a new entity. Each transaction updates the accounting identity and builds the financial statements from scratch.
+        Step through the first year of a new entity. Each transaction updates the identity and builds the financial statements from scratch.
       </p>
-      <p style={{ fontFamily: "'Open Sans', sans-serif", fontSize: '1rem', lineHeight: 1.7, color: '#373a44', marginTop: '1rem', marginBottom: 8 }}>
-        As you work through the activity, pay close attention to the <strong>architecture</strong>: the two balance sheets are snapshots of the entity's financial position at different dates, and the flow statements decompose the difference between them.
+      <p style={{ fontSize: 13, color: '#888', fontStyle: 'italic', marginBottom: 24 }}>
+        
       </p>
 
       <div className="reflect4-grid-wrap">
@@ -1117,10 +1118,10 @@ function TransactionSequencer() {
           <div className="txn-card">
             <div className="txn-label">Starting Point</div>
             <div className="txn-desc">
-              A new entity has just been formed. It has no assets, no liabilities, and no equities. Everything is zero. The accounting identity holds trivially: $0 &minus; $0 = $0.
+              A new entity has just been formed. It has no assets, no liabilities, and no equities. Everything is zero. The identity holds trivially: $0 &minus; $0 = $0.
             </div>
             <p style={{ fontSize: 12, color: '#555', lineHeight: 1.6 }}>
-              Click <strong>Next</strong> to begin recording transactions. Watch what happens to the accounting identity, the current balance sheet, and the flow statements as each one is processed.
+              Click <strong>Next</strong> to begin recording transactions. Watch what happens to the identity and the closing balance sheet as each one is processed.
             </p>
           </div>
         )}
@@ -1130,9 +1131,6 @@ function TransactionSequencer() {
             <div className="txn-label">Transaction {txnDisplayNum} of {totalTxns}</div>
             <div className="txn-desc">{txn.desc}</div>
             <div className="txn-effects">
-              <div style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.4px', color: '#888', marginBottom: 8 }}>
-                Accounts changed in the current balance sheet
-              </div>
               {Object.keys(txn.effects).map(k => (
                 <div className="eff-line" key={k}>
                   <span className="eff-acct">{ACCT_LABELS[k]}</span>
@@ -1142,7 +1140,7 @@ function TransactionSequencer() {
                 </div>
               ))}
               {Object.values(txn.effects).some(v => v < 0) && (
-                <div style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 10, color: '#555', fontStyle: 'italic', marginTop: 8 }}>
+                <div style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 10, color: '#aaa', fontStyle: 'italic', marginTop: 8 }}>
                   ( ) denotes a negative amount
                 </div>
               )}
@@ -1153,9 +1151,9 @@ function TransactionSequencer() {
                   AFFECTED FLOW STATEMENT(S)
                 </div>
               )}
-              {(txn.sce.length > 0 || txn.sceChip) && <span className="txn-tag tag-sce">Statement of Changes in Equities</span>}
-              {txn.cfs.length > 0 && <span className="txn-tag tag-cfs">Cash Flow Statement</span>}
               {txn.is.length > 0 && <span className="txn-tag tag-is">Income Statement</span>}
+              {txn.cfs.length > 0 && <span className="txn-tag tag-cfs">Cash Flow Statement</span>}
+              {txn.sce.length > 0 && <span className="txn-tag tag-sce">Statement of Changes in Equities</span>}
               {txn.is.length === 0 && txn.cfs.length === 0 && txn.sce.length === 0 && (
                 <span style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 12, color: '#999', fontStyle: 'italic' }}>
                   No cash moved. No revenue or expense. Only the balance sheet changes.
@@ -1169,10 +1167,10 @@ function TransactionSequencer() {
           <div className="reveal-box">
             <h3>The Statements Emerge</h3>
             <p style={{ fontSize: 15, lineHeight: 1.7, color: '#333', marginBottom: 12 }}>
-              Every transaction you stepped through changed the balance sheet on the right. The flow statements below are not new information. They reorganize those same transactions to explain different parts of the difference between the opening and closing balance sheets.
+              Every transaction you stepped through changed the closing balance sheet on the right. The flow statements below are not new information. They are the same transactions you already saw, organized into three decompositions of the difference between the opening and closing balance sheets.
             </p>
             <p style={{ fontSize: 15, lineHeight: 1.7, color: '#333', marginBottom: 12 }}>
-              Notice that Net Income is $24,000, while Cash from Operations is $22,000. These amounts differ because revenue, expenses, and cash do not always move at the same time. Of the $43,000 in revenue, only $25,000 was collected in cash when the revenue was earned. Another $12,000 of cash collected this period came from amounts customers already owed. In addition, the $4,000 depreciation expense reduced net income without reducing cash.
+              Notice two numbers: <strong>Net Income is {fmt(netIncome)}</strong>, but <strong>Cash from Operations is {fmt(cfsEntries.filter(e => e.cat === 'operating').reduce((s, e) => s + e.amt, 0))}</strong>. They are different. Of the $43,000 in revenue, only $25,000 was collected in cash &mdash; $18,000 is still owed by customers. And the $4,000 depreciation expense involved no cash at all. The income statement reflects conventions about when to recognize revenue and expense. The cash flow statement just counts what moved.
             </p>
           </div>
         )}
@@ -1190,6 +1188,11 @@ function TransactionSequencer() {
         </div>
       </div>
 
+      {txnsProcessed > 0 && (
+        <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 12, color: '#888', lineHeight: 1.6, marginTop: 10 }}>
+          * In practice, most people encounter the Income Statement first &mdash; it is what investors, managers, and analysts tend to care about most, and standard presentations reflect that. We show the statements in a different order here to make the logical structure visible. The Statement of Changes in Equities is the full bridge between the two Balance Sheets. The Cash Flow Statement decomposes the change in Cash. The Income Statement decomposes one line of the Statement of Changes in Equities: Net Income.
+        </p>
+      )}
 
       {/* === THREE-COLUMN GRID: opening BS | decomp tracker | closing BS === */}
       <div className="main-grid">
@@ -1207,35 +1210,62 @@ function TransactionSequencer() {
           />
         </div>
 
-        {/* CENTER COLUMN: decomp tracker */}
-        <div className="decomp-area">
-          <div className="bs-col-header">Flow Statements: Decompositions of the Change</div>
-          {txnsProcessed > 0 && (
-            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 11, color: '#888', marginBottom: 8, marginTop: 4 }}>
-              <span style={{ fontWeight: 600 }}>Tip:</span> Highlighted lines show the items changed by the current transaction. Hover over them to view explanations.
-            </p>
+        {/* CENTER COLUMN */}
+        <div className="txn-area">
+          {stage.type === 'intro' && (
+            <div className="txn-card">
+              <div className="txn-label">Starting Point</div>
+              <div className="txn-desc">
+                A new entity has just been formed. It has no assets, no liabilities, and no equities. Everything is zero. The identity holds trivially: $0 &minus; $0 = $0.
+              </div>
+              <p style={{ fontSize: 12, color: '#555', lineHeight: 1.6 }}>
+                Click <strong>Next</strong> to begin recording transactions. Watch what happens to the identity and the closing balance sheet as each one is processed.
+              </p>
+            </div>
           )}
-          <div className="decomp-scroll-box">
-            <div className="decomp-scroll-body">
-              <DecompTracker
-                isEntries={isEntries}
-                cfsEntries={cfsEntries}
-                sceEntries={sceEntries}
-                netIncome={netIncome}
-                step={step}
-                accounts={currentAccounts}
-              />
+
+          {stage.type === 'txn' && (
+            <div className="txn-card">
+              <div className="txn-label">Transaction {txnDisplayNum} of {totalTxns}</div>
+              <div className="txn-desc">{txn.desc}</div>
+              <div className="txn-effects">
+                {Object.keys(txn.effects).map(k => (
+                  <div className="eff-line" key={k}>
+                    <span className="eff-acct">{ACCT_LABELS[k]}</span>
+                    <span className={'eff-amt ' + (txn.effects[k] > 0 ? 'pos' : 'neg')}>
+                      {fmtChange(txn.effects[k])}
+                    </span>
+                  </div>
+                ))}
+                {Object.values(txn.effects).some(v => v < 0) && (
+                  <div style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 10, color: '#aaa', fontStyle: 'italic', marginTop: 8 }}>
+                    ( ) denotes a negative amount
+                  </div>
+                )}
+              </div>
+              <div>
+                {(txn.is.length > 0 || txn.cfs.length > 0 || txn.sce.length > 0) && (
+                  <div style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.4px', color: '#888', marginBottom: 6, marginTop: 28 }}>
+                    Flow Statement(s) Decomposing the Change
+                  </div>
+                )}
+                {txn.is.length > 0 && <span className="txn-tag tag-is">Income Statement</span>}
+                {txn.cfs.length > 0 && <span className="txn-tag tag-cfs">Cash Flow Statement</span>}
+                {txn.sce.length > 0 && <span className="txn-tag tag-sce">Statement of Changes in Equities</span>}
+                {txn.is.length === 0 && txn.cfs.length === 0 && txn.sce.length === 0 && (
+                  <span style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 12, color: '#999', fontStyle: 'italic' }}>
+                    No cash moved. No revenue or expense. Only the balance sheet changes.
+                  </span>
+                )}
+              </div>
             </div>
           </div>
-          <p style={{ fontFamily: "'Open Sans', sans-serif", fontSize: 12, color: '#888', fontStyle: 'italic', lineHeight: 1.6, marginTop: 10, marginBottom: 0 }}>
-            * In practice, most people encounter the Income Statement first &mdash; it is what investors, managers, and analysts tend to care about most, and standard presentations reflect that. In this activity, however, we present the statements in a different order to make their underlying structure easier to see. The Statement of Changes in Equities serves as the full bridge between the two Balance Sheets. The Cash Flow Statement decomposes the change in Cash. The Income Statement decomposes one line within the Statement of Changes in Equities: Net Income.
-          </p>
         </div>
 
         {/* RIGHT COLUMN: closing balance sheet */}
         <div className="bs-close">
-          <div className={'bs-col-header' + (stage.type === 'reveal' ? ' closing' : '')}>
-            {stage.type === 'reveal' ? 'Closing Balance Sheet' : 'Current Balance Sheet'}
+          <div className={'bs-col-header' + (txnsProcessed >= totalTxns ? ' closing' : '')}>
+            {txnsProcessed >= totalTxns ? 'Closing Balance Sheet' : 'Current Balance Sheet'}
           </div>
           <AccountsGrid
             accounts={currentAccounts}
