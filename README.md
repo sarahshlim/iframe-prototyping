@@ -57,6 +57,8 @@ The goal of the transaction-sequencer activity is to help learners see the archi
 - the Cash Flow Statement explains the full change in cash
 - the Income Statement explains net income, which is one part of the change in equities
 
+`https://sarahshlim.github.io/iframe-prototyping/reflect4_sarah.html`
+
 ## Status
 
 This repo contains working prototypes and iterative revisions. Some files may be experimental or in progress.
