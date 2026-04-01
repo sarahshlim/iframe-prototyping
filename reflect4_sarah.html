@@ -24,7 +24,7 @@
   .identity-bar {
     background: var(--primary);
     color: white;
-    border-radius: 0 0 6px 6px;
+    border-radius: 0;
     padding: 14px 20px;
     display: flex;
     align-items: center;
@@ -33,6 +33,7 @@
     font-family: Inter, system-ui, sans-serif;
     font-size: 15px;
     font-weight: 600;
+    margin-top: 20px;
     margin-bottom: 20px;
     flex-wrap: wrap;
     position: sticky;
@@ -1109,9 +1110,8 @@ function TransactionSequencer() {
       <div className="reflect4-grid-wrap">
       <div className="reflect4-fixed-min">
       <TimelineSVG step={txnsProcessed} total={totalTxns} />
-      <IdentityBar accounts={currentAccounts} />
 
-      {/* === TRANSACTION CARD: full-width below identity bar === */}
+      {/* === TRANSACTION CARD: full-width below timeline === */}
       <div className="txn-area">
         {stage.type === 'intro' && (
           <div className="txn-card">
@@ -1189,7 +1189,7 @@ function TransactionSequencer() {
           )}
         </div>
       </div>
-
+      <IdentityBar accounts={currentAccounts} />
 
       {/* === THREE-COLUMN GRID: opening BS | decomp tracker | closing BS === */}
       <div className="main-grid">
@@ -1227,9 +1227,6 @@ function TransactionSequencer() {
               />
             </div>
           </div>
-          <p style={{ fontFamily: "'Open Sans', sans-serif", fontSize: 12, color: '#888', fontStyle: 'italic', lineHeight: 1.6, marginTop: 10, marginBottom: 0 }}>
-            * In practice, most people encounter the Income Statement first &mdash; it is what investors, managers, and analysts tend to care about most, and standard presentations reflect that. In this activity, however, we present the statements in a different order to make their underlying structure easier to see. The Statement of Changes in Equities serves as the full bridge between the two Balance Sheets. The Cash Flow Statement decomposes the change in Cash. The Income Statement decomposes one line within the Statement of Changes in Equities: Net Income.
-          </p>
         </div>
 
         {/* RIGHT COLUMN: closing balance sheet */}
@@ -1248,6 +1245,9 @@ function TransactionSequencer() {
         </div>
 
       </div>{/* /main-grid */}
+      <p style={{ fontFamily: "'Open Sans', sans-serif", fontSize: 12, color: '#888', lineHeight: 1.6, marginTop: 0, marginBottom: 0 }}>
+        * In practice, most people encounter the Income Statement first &mdash; it is what investors, managers, and analysts tend to care about most, and standard presentations reflect that. In this activity, however, we present the statements in a different order to make their underlying structure easier to see. The Statement of Changes in Equities serves as the full bridge between the two Balance Sheets. The Cash Flow Statement decomposes the change in Cash. The Income Statement decomposes one line within the Statement of Changes in Equities: Net Income.
+      </p>
       </div>{/* /reflect4-fixed-min */}
       </div>{/* /reflect4-grid-wrap */}
     </div>
