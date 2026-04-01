@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en" class="articulate-embed">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accounting Pre-Work</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css?v=2">
+<style>
+  /* ===== EMBED SHELL ===== */
+  html.articulate-embed,
+  html.articulate-embed body {
+    height: 100%;
+    margin: 0;
+  }
+  html.articulate-embed body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    font-family: Inter, system-ui, sans-serif;
+  }
+  .content.content-standalone {
+    max-width: none;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /* ===== DUAL IDENTITY BAR ===== */
+  /* Mirrors the identity-bar from the Simple Case activity, adapted to show
+     both balance-sheet identities simultaneously. */
+  .dual-identity-bar {
+    background: var(--primary);
+    color: white;
+    border-radius: 0 0 6px 6px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    font-family: Inter, system-ui, sans-serif;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .dib-side {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .dib-tag {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    opacity: 0.65;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 3px;
+    padding: 2px 6px;
+    white-space: nowrap;
+  }
+  .dib-eq {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+  }
+  .dib-group {
+    text-align: center;
+  }
+  .dib-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.7;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 1px;
+  }
+  .dib-val {
+    font-weight: 700;
+    font-size: 14px;
+    display: block;
+  }
+  .dib-op {
+    font-size: 14px;
+    opacity: 0.55;
+    align-self: flex-end;
+    padding-bottom: 2px;
+  }
+  .dib-divider {
+    width: 1px;
+    height: 40px;
+    background: rgba(255,255,255,0.2);
+    flex-shrink: 0;
+  }
+
+  /* ===== OUTER WRAP ===== */
+  .articulate-wrap {
+    padding: 0 16px 32px;
+  }
+
+  /* ===== STAGE PROGRESS ===== */
+  .stage-progress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 16px;
+    font-family: Inter, system-ui, sans-serif;
+  }
+  .stage-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ddd;
+    flex-shrink: 0;
+    transition: background 0.2s, width 0.2s, height 0.2s;
+  }
+  .stage-dot.done   { background: var(--primary-light); }
+  .stage-dot.active { background: var(--accent); width: 10px; height: 10px; }
+  .stage-label-pill {
+    margin-left: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--accent);
+  }
+
+  /* ===== THREE-COLUMN GRID ===== */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.8fr 1fr;
+    gap: 14px;
+    margin-bottom: 0;
+    align-items: start;
+  }
+
+  /* ===== COLUMN HEADERS ===== */
+  .bs-col-header {
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--primary);
+    text-align: center;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--primary);
+  }
+  .bs-col-header.closing {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .bs-col-header.center-hdr {
+    color: #555;
+    border-color: #aaa;
+  }
+
+  /* ===== BALANCE SHEET ===== */
+  .acct-col {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 14px;
+    margin-bottom: 8px;
+  }
+  .acct-col h4 {
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--primary);
+    margin: 0 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--primary);
+  }
+  .acct-line {
+    display: flex;
+    justify-content: space-between;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 13px;
+    padding: 4px 2px;
+    color: #555;
+    border-radius: 3px;
+    transition: background 0.25s;
+  }
+  .acct-line .acct-val {
+    font-weight: 600;
+    color: #333;
+  }
+  .acct-total {
+    display: flex;
+    justify-content: space-between;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--primary);
+    padding-top: 8px;
+    margin-top: 6px;
+    border-top: 1px solid #ddd;
+  }
+
+  /* Highlight states for guided emphasis */
+  .hl-cash {
+    background: rgba(22, 163, 74, 0.13);
+    padding: 4px 6px;
+    margin: 0 -6px;
+    border-radius: 3px;
+  }
+  .hl-equity {
+    background: rgba(146, 64, 14, 0.10);
+    padding: 4px 6px;
+    margin: 0 -6px;
+    border-radius: 3px;
+  }
+
+  /* ===== CENTER COLUMN: TEXT CARD ===== */
+  .center-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 12px;
+  }
+  .stage-text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.75;
+    color: #2a2a2a;
+  }
+  .stage-text p { margin: 0 0 12px; }
+  .stage-text p:last-child { margin-bottom: 0; }
+  .stage-text strong { color: var(--primary); }
+  .stage-instruction {
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 12px;
+    color: #888;
+    font-style: italic;
+    line-height: 1.6;
+    margin-top: 12px;
+  }
+
+  /* ===== DELTA DISPLAY (Stage 1) ===== */
+  .delta-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .delta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 13px;
+  }
+  .delta-row.dr-cash {
+    background: rgba(22, 163, 74, 0.09);
+    border: 1px solid rgba(22, 163, 74, 0.22);
+    color: #14532d;
+  }
+  .delta-row.dr-equity {
+    background: rgba(146, 64, 14, 0.08);
+    border: 1px solid rgba(146, 64, 14, 0.18);
+    color: #78350f;
+  }
+  .delta-row .dr-label { font-weight: 500; }
+  .delta-row .dr-amount { font-weight: 700; font-size: 15px; }
+
+  /* ===== FLOW STATEMENT PANELS ===== */
+  /* Color scheme mirrors the Simple Case activity tags:
+     CFS = green (#166534), SCE = amber (#92400e) */
+  .decomp-section {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 10px;
+  }
+  .decomp-section h4 {
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin: 0 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #eee;
+  }
+  .decomp-cfs h4 { color: #166534; }
+  .decomp-sce h4 { color: #92400e; }
+
+  .decomp-cat-label {
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #999;
+    margin: 8px 0 3px;
+  }
+  .decomp-line {
+    display: flex;
+    justify-content: space-between;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 13px;
+    padding: 3px 0;
+    color: #555;
+  }
+  .decomp-line .dl-val { font-weight: 600; }
+  .decomp-total {
+    display: flex;
+    justify-content: space-between;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    padding-top: 8px;
+    margin-top: 6px;
+    border-top: 1px solid #ddd;
+  }
+
+  /* Sealed net-income line */
+  .sealed-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 13px;
+    padding: 7px 10px;
+    background: #fefaf2;
+    border: 1px dashed #d4b06a;
+    border-radius: 4px;
+    margin: 4px 0 2px;
+    gap: 8px;
+  }
+  .sealed-label { display: flex; flex-direction: column; gap: 2px; }
+  .sealed-label .sl-main { font-weight: 500; color: #444; }
+  .sealed-label .sl-note {
+    font-size: 10px;
+    color: #aaa;
+    font-style: italic;
+    line-height: 1.4;
+  }
+  .sealed-val {
+    font-weight: 600;
+    white-space: nowrap;
+    padding-top: 1px;
+  }
+
+  /* ===== CHANGE SUMMARY ===== */
+  .change-summary {
+    background: #f8f8f8;
+    border: 1px solid #e8e8e8;
+    border-radius: 5px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    font-family: Inter, system-ui, sans-serif;
+  }
+  .cs-eyebrow {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #777;
+    margin-bottom: 6px;
+  }
+  .cs-flow {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #555;
+    flex-wrap: wrap;
+    margin-bottom: 3px;
+  }
+  .cs-arrow { color: #ccc; }
+  .cs-change { font-size: 12px; color: #555; margin-bottom: 3px; }
+  .cs-note { font-size: 11px; color: #999; font-style: italic; }
+
+  /* ===== REFLECTION PROMPT (Stage 5) ===== */
+  .prompt-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 12px;
+  }
+  .prompt-q {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    color: #2a2a2a;
+    margin: 0 0 14px;
+  }
+  .prompt-card textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #2a2a2a;
+    resize: vertical;
+    box-sizing: border-box;
+  }
+  .prompt-card textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+  .prompt-card textarea::placeholder {
+    color: #bbb;
+    font-style: italic;
+  }
+  .transition-note {
+    background: var(--primary-faint);
+    border: 1px solid #dce4ee;
+    border-radius: 6px;
+    padding: 14px 18px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: #444;
+  }
+
+  /* ===== STAGE-CLOSING FOOTNOTE ===== */
+  .stage-footnote {
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 12px;
+    color: #999;
+    font-style: italic;
+    line-height: 1.55;
+    margin-top: 8px;
+  }
+
+  /* ===== NAV BUTTONS ===== */
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 18px;
+  }
+  .btn-back {
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 13px;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #555;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .btn-back:hover:not(:disabled) { background: #f5f5f5; border-color: #bbb; }
+  .btn-back:disabled { color: #ccc; cursor: default; }
+  .btn-next {
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 22px;
+    border-radius: 4px;
+    cursor: pointer;
+    background: var(--primary);
+    color: white;
+    border: none;
+    transition: background 0.15s;
+  }
+  .btn-next:hover { background: var(--primary-light); }
+  .btn-next:disabled { background: #ccc; cursor: default; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 860px) {
+    .main-grid { grid-template-columns: 1fr 1.5fr 1fr; gap: 8px; }
+    .acct-line { font-size: 12px; }
+    .decomp-line { font-size: 12px; }
+    .stage-text { font-size: 13px; }
+    .dib-val { font-size: 13px; }
+  }
+  @media (max-width: 580px) {
+    .main-grid { grid-template-columns: 1fr; }
+    .dual-identity-bar { flex-direction: column; gap: 10px; padding: 10px 16px; }
+    .dib-divider { width: 60%; height: 1px; }
+    .articulate-wrap { padding: 0 12px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="content content-standalone">
+  <div id="react-root"></div>
+</div>
+
+<script src="config.js?v=2"></script>
+<script src="shared.js"></script>
+<script>
+  applyConfig();
+  markModuleVisited(4);
+</script>
+
+<!-- React 18 via CDN (matches reflect4_sarah.html) -->
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+const { useState, useRef, useCallback } = React;
+
+const STORAGE_KEY = 'prework_articulate1';
+
+// ===== FIXED DATASET =====
+// All numbers internally consistent (verified below):
+//   Opening: 40K + 80K = 120K assets; 120K − 50K = 70K equities  ✓
+//   Closing:  58K + 92K = 150K assets; 150K − 56K = 94K equities  ✓
+//   CFS: 26K − 10K + 2K = 18K net change; 40K + 18K = 58K        ✓
+//   SCE: 70K + 8K − 4K + 20K = 94K closing                        ✓
+
+const OPENING = { cash: 40000, nonCash: 80000, liabilities: 50000, equities: 70000 };
+const CLOSING  = { cash: 58000, nonCash: 92000, liabilities: 56000, equities: 94000 };
+
+const CFS = {
+  operating:  26000,
+  investing: -10000,
+  financing:   2000,
+  netChange:  18000,
+};
+
+const SCE = {
+  opening:       70000,
+  contributions:  8000,
+  distributions: -4000,
+  netIncome:     20000,
+  closing:       94000,
+};
+
+// ===== STAGE DEFINITIONS =====
+const STAGES = [
+  { id: 'snapshots',   centerHeader: 'The Question',                    label: 'Two Snapshots'   },
+  { id: 'one-change',  centerHeader: 'One Change',                      label: 'One Change'      },
+  { id: 'cash-path',   centerHeader: 'What Changed, and Why: Cash',     label: 'The Cash Path'   },
+  { id: 'equity-path', centerHeader: 'What Changed, and Why: Equities', label: 'The Equity Path' },
+  { id: 'system',      centerHeader: 'What Changed, and Why',           label: 'The System'      },
+  { id: 'consolidate', centerHeader: 'Reflect',                         label: 'Consolidate'     },
+];
+
+// ===== FORMATTERS =====
+function fmt(n) {
+  if (n === 0) return '$0';
+  const abs = '$' + Math.abs(n).toLocaleString();
+  return n < 0 ? '(' + abs + ')' : abs;
+}
+function fmtChange(n) {
+  if (n === 0) return '$0';
+  const abs = '$' + Math.abs(n).toLocaleString();
+  return n > 0 ? '+' + abs : '(' + abs + ')';
+}
+function amtColor(n) {
+  if (n > 0) return '#166534';
+  if (n < 0) return '#dc2626';
+  return '#333';
+}
+
+// ===== DUAL IDENTITY BAR =====
+// Shows A − L = E for both balance sheets simultaneously, reinforcing
+// that the accounting identity holds at both dates.
+function DualIdentityBar() {
+  function Side({ tag, data }) {
+    const assets = data.cash + data.nonCash;
+    return (
+      <div className="dib-side">
+        <span className="dib-tag">{tag}</span>
+        <div className="dib-eq">
+          <div className="dib-group">
+            <span className="dib-label">Assets</span>
+            <span className="dib-val">{fmt(assets)}</span>
+          </div>
+          <span className="dib-op">&minus;</span>
+          <div className="dib-group">
+            <span className="dib-label">Liabilities</span>
+            <span className="dib-val">{fmt(data.liabilities)}</span>
+          </div>
+          <span className="dib-op">=</span>
+          <div className="dib-group">
+            <span className="dib-label">Equities</span>
+            <span className="dib-val">{fmt(data.equities)}</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="dual-identity-bar">
+      <Side tag="Opening" data={OPENING} />
+      <div className="dib-divider" />
+      <Side tag="Closing" data={CLOSING} />
+    </div>
+  );
+}
+
+// ===== STATIC BALANCE SHEET =====
+// Displays a balance sheet at the single-line equities level.
+// highlight: null | 'cash' | 'equity' | 'both'
+function StaticBalanceSheet({ data, highlight }) {
+  const totalAssets = data.cash + data.nonCash;
+  const hlCash   = highlight === 'cash'   || highlight === 'both';
+  const hlEquity = highlight === 'equity' || highlight === 'both';
+
+  return (
+    <div>
+      <div className="acct-col">
+        <h4>Assets</h4>
+        <div className={'acct-line' + (hlCash ? ' hl-cash' : '')}>
+          <span>Cash</span>
+          <span className="acct-val">{fmt(data.cash)}</span>
+        </div>
+        <div className="acct-line">
+          <span>Non-cash assets</span>
+          <span className="acct-val">{fmt(data.nonCash)}</span>
+        </div>
+        <div className="acct-total">
+          <span>Total Assets</span>
+          <span>{fmt(totalAssets)}</span>
+        </div>
+      </div>
+
+      <div className="acct-col">
+        <h4>Liabilities</h4>
+        <div className="acct-line">
+          <span>Liabilities</span>
+          <span className="acct-val">{fmt(data.liabilities)}</span>
+        </div>
+      </div>
+
+      <div className="acct-col">
+        <h4>Equities</h4>
+        <div className={'acct-line' + (hlEquity ? ' hl-equity' : '')}>
+          <span>Equities</span>
+          <span className="acct-val">{fmt(data.equities)}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ===== CHANGE SUMMARY =====
+// "What this statement explains" box — matches the ChangeSummary
+// component used in the Simple Case activity.
+function ChangeSummary({ openingAmt, closingAmt, color, statementLabel }) {
+  const change = closingAmt - openingAmt;
+  return (
+    <div className="change-summary">
+      <div className="cs-eyebrow">What this statement explains</div>
+      <div className="cs-flow">
+        <span>Opening: <strong style={{ color }}>{fmt(openingAmt)}</strong></span>
+        <span className="cs-arrow">&#8594;</span>
+        <span>Closing: <strong style={{ color }}>{fmt(closingAmt)}</strong></span>
+      </div>
+      <div className="cs-change">
+        Change: <strong style={{ color }}>{fmtChange(change)}</strong>
+      </div>
+      <div className="cs-note">{statementLabel} accounts for the full difference.</div>
+    </div>
+  );
+}
+
+// ===== CFS PANEL =====
+function CfsPanel() {
+  return (
+    <div className="decomp-section decomp-cfs" style={{ borderLeft: '3px solid #166534' }}>
+      <h4>Statement of Cash Flows</h4>
+
+      <div className="decomp-cat-label">Operating</div>
+      <div className="decomp-line">
+        <span>&ensp;Cash from operations</span>
+        <span className="dl-val" style={{ color: amtColor(CFS.operating) }}>{fmtChange(CFS.operating)}</span>
+      </div>
+
+      <div className="decomp-cat-label">Investing</div>
+      <div className="decomp-line">
+        <span>&ensp;Cash used in investing</span>
+        <span className="dl-val" style={{ color: amtColor(CFS.investing) }}>{fmtChange(CFS.investing)}</span>
+      </div>
+
+      <div className="decomp-cat-label">Financing</div>
+      <div className="decomp-line">
+        <span>&ensp;Cash from financing</span>
+        <span className="dl-val" style={{ color: amtColor(CFS.financing) }}>{fmtChange(CFS.financing)}</span>
+      </div>
+
+      <div className="decomp-total" style={{ color: '#166534' }}>
+        <span>Net change in cash</span>
+        <span>{fmtChange(CFS.netChange)}</span>
+      </div>
+    </div>
+  );
+}
+
+// ===== SCE PANEL =====
+// Net income is a sealed, labeled line — not decomposed.
+function ScePanel() {
+  return (
+    <div className="decomp-section decomp-sce" style={{ borderLeft: '3px solid #92400e' }}>
+      <h4>Statement of Changes in Equities</h4>
+
+      <div className="decomp-line">
+        <span>&ensp;Opening equities</span>
+        <span className="dl-val">{fmt(SCE.opening)}</span>
+      </div>
+      <div className="decomp-line">
+        <span>&ensp;Owner contributions</span>
+        <span className="dl-val" style={{ color: amtColor(SCE.contributions) }}>{fmtChange(SCE.contributions)}</span>
+      </div>
+      <div className="decomp-line">
+        <span>&ensp;Distributions to owners</span>
+        <span className="dl-val" style={{ color: amtColor(SCE.distributions) }}>{fmtChange(SCE.distributions)}</span>
+      </div>
+
+      {/* Sealed net income line — deferred to next activity */}
+      <div className="sealed-line">
+        <div className="sealed-label">
+          <span className="sl-main">Net income</span>
+          <span className="sl-note">The income statement explains this — coming in the next activity</span>
+        </div>
+        <span className="sealed-val" style={{ color: amtColor(SCE.netIncome) }}>{fmtChange(SCE.netIncome)}</span>
+      </div>
+
+      <div className="decomp-total" style={{ color: '#92400e' }}>
+        <span>Closing equities</span>
+        <span>{fmt(SCE.closing)}</span>
+      </div>
+    </div>
+  );
+}
+
+// ===== STAGE 0 — Two Snapshots =====
+function StageSnapshots() {
+  return (
+    <div className="center-card">
+      <div className="stage-text">
+        <p>Each balance sheet is a snapshot of the entity's financial position at a date.</p>
+        <p>
+          These two — one from the beginning of the period, one from the end — are the
+          bookends. They show where the entity stood at two moments. They don't show what
+          happened between them.
+        </p>
+        <p>
+          <strong>The snapshots frame the question. The flow statements provide the explanation.</strong>
+        </p>
+      </div>
+      <p className="stage-instruction">
+        Look at both balance sheets. The steps that follow will show how the financial
+        statements explain the change between them.
+      </p>
+    </div>
+  );
+}
+
+// ===== STAGE 1 — One Change =====
+function StageOneChange() {
+  const cashChange   = CLOSING.cash     - OPENING.cash;
+  const equityChange = CLOSING.equities - OPENING.equities;
+  return (
+    <div className="center-card">
+      <div className="stage-text">
+        <p>There is one change — the difference between the opening balance sheet and the closing balance sheet.</p>
+        <p>
+          Two things shifted during the period: cash and equity. The flow statements aren't
+          separate reports that happen to agree with those shifts. They are decompositions of
+          that one change, each explaining a different part of it.
+        </p>
+      </div>
+      <div className="delta-grid">
+        <div className="delta-row dr-cash">
+          <span className="dr-label">Cash changed by</span>
+          <span className="dr-amount">{fmtChange(cashChange)}</span>
+        </div>
+        <div className="delta-row dr-equity">
+          <span className="dr-label">Equities changed by</span>
+          <span className="dr-amount">{fmtChange(equityChange)}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ===== STAGE 2 — The Cash Path =====
+function StageCashPath() {
+  return (
+    <div>
+      <div className="center-card">
+        <div className="stage-text">
+          <p>The statement of cash flows explains the change in cash during the period.</p>
+          <p>
+            It isn't a separate report that happens to agree with what you see in the balance
+            sheet. It is that change — from opening cash to closing cash — decomposed into
+            operating, investing, and financing categories.
+          </p>
+        </div>
+      </div>
+      <CfsPanel />
+      <ChangeSummary
+        openingAmt={OPENING.cash}
+        closingAmt={CLOSING.cash}
+        color="#166534"
+        statementLabel="The cash flow statement"
+      />
+      <p className="stage-footnote">
+        That's the cash path: one change in one asset, fully explained by one statement.
+      </p>
+    </div>
+  );
+}
+
+// ===== STAGE 3 — The Equity Path =====
+function StageEquityPath() {
+  return (
+    <div>
+      <div className="center-card">
+        <div className="stage-text">
+          <p>
+            The statement of changes in equities tracks the full movement from opening equities
+            to closing equities. It is the full bridge from one balance sheet to the next.
+          </p>
+          <p>
+            Two things moved equity during the period: owner activity — contributions in and
+            distributions out — and the result of the entity's operations.
+          </p>
+        </div>
+      </div>
+      <ScePanel />
+      <ChangeSummary
+        openingAmt={OPENING.equities}
+        closingAmt={CLOSING.equities}
+        color="#92400e"
+        statementLabel="The statement of changes in equities"
+      />
+      <p className="stage-footnote">
+        That's the equity path: owner contributions, distributions, and the result of
+        operations — together they account for the full movement from one balance sheet
+        to the next.
+      </p>
+    </div>
+  );
+}
+
+// ===== STAGE 4 — The System =====
+function StageSystem() {
+  return (
+    <div>
+      <div className="center-card">
+        <div className="stage-text">
+          <p>It's tempting to think of these as separate reports that happen to fit together. They're not.</p>
+          <p>
+            There is one change — the difference between the opening balance sheet and the
+            closing balance sheet — and both statements are decompositions of that change.
+          </p>
+          <p>
+            The cash flow statement explains what happened to cash.<br />
+            The statement of changes in equities explains what happened to equity.
+          </p>
+          <p>
+            <strong>The balance sheets are the snapshots. The flow statements are the explanation.</strong>
+          </p>
+        </div>
+      </div>
+      <CfsPanel />
+      <ScePanel />
+    </div>
+  );
+}
+
+// ===== STAGE 5 — Consolidate =====
+function StageConsolidate() {
+  const [val, setVal] = useState(() => {
+    try { return (JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'))['reflect'] || ''; }
+    catch(e) { return ''; }
+  });
+  const timerRef = useRef(null);
+
+  const save = useCallback((v) => {
+    try {
+      const s = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      s['reflect'] = v;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
+    } catch(e) {}
+  }, []);
+
+  const onChange = useCallback((e) => {
+    setVal(e.target.value);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => save(e.target.value), 800);
+  }, [save]);
+
+  return (
+    <div>
+      <div className="center-card">
+        <div className="stage-text">
+          <p>
+            The structure is visible now: two snapshots, and the statements that explain
+            the change between them.
+          </p>
+        </div>
+      </div>
+      <div className="prompt-card">
+        <p className="prompt-q">
+          In a few sentences: what do the two balance sheets tell you, and what do the
+          flow statements tell you that the balance sheets alone cannot?
+        </p>
+        <textarea
+          value={val}
+          onChange={onChange}
+          onBlur={() => save(val)}
+          placeholder="Write your response here…"
+        />
+      </div>
+      <div className="transition-note">
+        The next activity opens up the equity path further — you'll examine the income
+        statement and see how it explains the net income line you encountered here.
+      </div>
+    </div>
+  );
+}
+
+// ===== CENTER PANEL SWITCHER =====
+function CenterPanel({ step }) {
+  switch (step) {
+    case 0: return <StageSnapshots />;
+    case 1: return <StageOneChange />;
+    case 2: return <StageCashPath />;
+    case 3: return <StageEquityPath />;
+    case 4: return <StageSystem />;
+    case 5: return <StageConsolidate />;
+    default: return null;
+  }
+}
+
+// ===== MAIN COMPONENT =====
+function GuidedArticulation() {
+  const [step, setStep] = useState(0);
+
+  const isFirst = step === 0;
+  const isLast  = step === STAGES.length - 1;
+  const stage   = STAGES[step];
+
+  // Which balance sheet rows to highlight at each stage
+  const highlight = (() => {
+    if (step === 1 || step === 4) return 'both';
+    if (step === 2) return 'cash';
+    if (step === 3) return 'equity';
+    return null;
+  })();
+
+  // Closing balance sheet header turns accent after Stage 0 to signal
+  // that the period has now begun to unfold.
+  const closingHdrClass = 'bs-col-header' + (step > 0 ? ' closing' : '');
+
+  return (
+    <div>
+      <DualIdentityBar />
+
+      <div className="articulate-wrap">
+
+        {/* Stage progress indicator */}
+        <div className="stage-progress">
+          {STAGES.map((s, i) => (
+            <div
+              key={s.id}
+              className={
+                'stage-dot' +
+                (i === step ? ' active' : i < step ? ' done' : '')
+              }
+            />
+          ))}
+          <span className="stage-label-pill">{stage.label}</span>
+        </div>
+
+        {/* Three-column grid */}
+        <div className="main-grid">
+
+          {/* Left: Opening Balance Sheet */}
+          <div>
+            <div className="bs-col-header">Opening Balance Sheet</div>
+            <StaticBalanceSheet data={OPENING} highlight={highlight} />
+          </div>
+
+          {/* Center: Stage content */}
+          <div>
+            <div className="bs-col-header center-hdr">{stage.centerHeader}</div>
+            <CenterPanel step={step} />
+          </div>
+
+          {/* Right: Closing Balance Sheet */}
+          <div>
+            <div className={closingHdrClass}>Closing Balance Sheet</div>
+            <StaticBalanceSheet data={CLOSING} highlight={highlight} />
+          </div>
+
+        </div>{/* /main-grid */}
+
+        {/* Navigation */}
+        <div className="nav-buttons">
+          <button
+            className="btn-back"
+            disabled={isFirst}
+            onClick={() => setStep(s => s - 1)}
+          >
+            &larr; Back
+          </button>
+          {!isLast && (
+            <button
+              className="btn-next"
+              onClick={() => setStep(s => s + 1)}
+            >
+              Next &rarr;
+            </button>
+          )}
+        </div>
+
+      </div>{/* /articulate-wrap */}
+    </div>
+  );
+}
+
+// ===== MOUNT =====
+const root = ReactDOM.createRoot(document.getElementById('react-root'));
+root.render(<GuidedArticulation />);
+</script>
+
+</body>
+</html>
