@@ -37,6 +37,7 @@ Prototype pages:
 - `https://sarahshlim.github.io/iframe-prototyping/entity-diagram.html`
 - `https://sarahshlim.github.io/iframe-prototyping/entity-diagram-prompts.html`
 - `https://sarahshlim.github.io/iframe-prototyping/homework.html`
+- `https://sarahshlim.github.io/iframe-prototyping/m4_articulate1_sarah.html`
 
 ## Notes on workflow
 
