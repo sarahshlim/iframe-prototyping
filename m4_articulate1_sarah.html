@@ -820,10 +820,7 @@ function CfsPanel() {
 }
 
 // ===== SCE PANEL =====
-// Net income is a sealed, labeled line — not decomposed.
-// sealed=true (default): shows purple highlight + explanatory note on Net Income line.
-// sealed=false: renders Net Income as a plain decomp-line (used in The System stage).
-function ScePanel({ sealed = true }) {
+function ScePanel() {
   return (
     <div className="decomp-section decomp-sce" style={{ borderLeft: '3px solid #92400e' }}>
       <h4>Statement of Changes in Equities</h4>
@@ -833,21 +830,10 @@ function ScePanel({ sealed = true }) {
         <span className="dl-val">{fmt(SCE.opening)}</span>
       </div>
 
-      {sealed ? (
-        /* Sealed net income line — explained in the next stage */
-        <div className="sealed-line">
-          <div className="sealed-label">
-            <span className="sl-main">Net income</span>
-            <span className="sl-note">The income statement explains this. See the next stage.</span>
-          </div>
-          <span className="sealed-val">{fmtChange(SCE.netIncome)}</span>
-        </div>
-      ) : (
-        <div className="decomp-line">
-          <span>&ensp;Net income</span>
-          <span className="dl-val">{fmtChange(SCE.netIncome)}</span>
-        </div>
-      )}
+      <div className="decomp-line">
+        <span>&ensp;Net income</span>
+        <span className="dl-val">{fmtChange(SCE.netIncome)}</span>
+      </div>
 
       <div className="decomp-line">
         <span>&ensp;Distributions to owners</span>
@@ -926,7 +912,7 @@ function StageSystem() {
   return (
     <div>
       <CfsPanel />
-      <ScePanel sealed={false} />
+      <ScePanel />
       <IsPanel />
       <p className="panel-footnote">* ( ) denotes a negative amount</p>
     </div>
