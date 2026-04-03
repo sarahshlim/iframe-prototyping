@@ -426,6 +426,11 @@
     color: #666;
     margin-top: 6px;
   }
+  .panel-footnote {
+    font-size: 12px;
+    color: #888;
+    margin-top: 8px;
+  }
 
   /* ===== REFLECTION PROMPT (Stage 5) ===== */
   .prompt-card {
@@ -522,6 +527,8 @@
 
   /* Two-column grid variant for Stage 0 (no center column) */
   .main-grid.two-col { grid-template-columns: 1fr 1fr; }
+  /* Single-column grid variant for Stage 5 (Consolidate) */
+  .main-grid.one-col { grid-template-columns: 1fr; }
   @media (max-width: 580px) {
     .main-grid.two-col { grid-template-columns: 1fr; }
   }
@@ -814,7 +821,9 @@ function CfsPanel() {
 
 // ===== SCE PANEL =====
 // Net income is a sealed, labeled line — not decomposed.
-function ScePanel() {
+// sealed=true (default): shows purple highlight + explanatory note on Net Income line.
+// sealed=false: renders Net Income as a plain decomp-line (used in The System stage).
+function ScePanel({ sealed = true }) {
   return (
     <div className="decomp-section decomp-sce" style={{ borderLeft: '3px solid #92400e' }}>
       <h4>Statement of Changes in Equities</h4>
@@ -824,14 +833,21 @@ function ScePanel() {
         <span className="dl-val">{fmt(SCE.opening)}</span>
       </div>
 
-      {/* Sealed net income line — explained in the next stage */}
-      <div className="sealed-line">
-        <div className="sealed-label">
-          <span className="sl-main">Net income</span>
-          <span className="sl-note">The income statement explains this. See the next stage.</span>
+      {sealed ? (
+        /* Sealed net income line — explained in the next stage */
+        <div className="sealed-line">
+          <div className="sealed-label">
+            <span className="sl-main">Net income</span>
+            <span className="sl-note">The income statement explains this. See the next stage.</span>
+          </div>
+          <span className="sealed-val">{fmtChange(SCE.netIncome)}</span>
         </div>
-        <span className="sealed-val">{fmtChange(SCE.netIncome)}</span>
-      </div>
+      ) : (
+        <div className="decomp-line">
+          <span>&ensp;Net income</span>
+          <span className="dl-val">{fmtChange(SCE.netIncome)}</span>
+        </div>
+      )}
 
       <div className="decomp-line">
         <span>&ensp;Distributions to owners</span>
@@ -875,6 +891,7 @@ function StageIncomeStmt() {
   return (
     <div>
       <IsPanel />
+      <p className="panel-footnote">* ( ) denotes a negative amount</p>
     </div>
   );
 }
@@ -889,6 +906,7 @@ function StageCashPath() {
   return (
     <div>
       <CfsPanel />
+      <p className="panel-footnote">* ( ) denotes a negative amount</p>
     </div>
   );
 }
@@ -898,6 +916,7 @@ function StageEquityPath() {
   return (
     <div>
       <ScePanel />
+      <p className="panel-footnote">* ( ) denotes a negative amount</p>
     </div>
   );
 }
@@ -907,8 +926,9 @@ function StageSystem() {
   return (
     <div>
       <CfsPanel />
-      <ScePanel />
+      <ScePanel sealed={false} />
       <IsPanel />
+      <p className="panel-footnote">* ( ) denotes a negative amount</p>
     </div>
   );
 }
@@ -939,8 +959,7 @@ function StageConsolidate() {
     <div>
       <div className="prompt-card">
         <p className="prompt-q">
-          In your own words: what do the two balance sheets tell you, and what do the
-          other statements explain that the balance sheets alone do not?
+          In your own words: what do the opening and closing balance sheets tell you, and what do the other statements explain that the balance sheets alone do not?
         </p>
         <textarea
           value={val}
@@ -974,9 +993,9 @@ function StageIntroCard({ step }) {
       case 0:
         return (
           <div className="stage-text no-color-bold">
-            <p>Start by comparing the opening and closing balance sheets. Each one is a snapshot of the entity's financial position at a different date.</p>
-            <p>The two snapshots are <strong>not</strong> the same. Assets changed. Liabilities changed. Equity changed.</p>
-            <p>The balance sheets show that the entity changed over the period, but by themselves they do not explain how or why those changes happened. In the next stages, you will follow some of the most important parts of that change — including <strong>cash</strong>, <strong>equity</strong>, and <strong>net income</strong> — and see how the other financial statements explain them.</p>
+            <p>Start by comparing the opening and closing balance sheets. Each one is a snapshot of the entity's financial position at a specific point in time — one at the beginning of the period and one at the end of the period.</p>
+            <p>The two snapshots are not the same. Assets changed. Liabilities changed. Equity changed.</p>
+            <p>The balance sheets show that the entity changed over the period, but by themselves they do not explain how or why those changes happened. In the next stages, you will follow some of the most important parts of that change — including cash, equity, and net income — and see how the other financial statements explain them.</p>
           </div>
         );
       case 1:
@@ -1037,7 +1056,7 @@ function StageIntroCard({ step }) {
               </div>
             </div>
             <div className="stage-text" style={{ marginTop: '12px' }}>
-              <p>One of the lines in this statement is <strong>net income</strong>. In the next stage, you will open that line and see how the income statement explains it.</p>
+              <p>One of the lines in this statement is <strong>Net Income</strong>. In the next stage, you will open that line and see how the income statement explains it.</p>
             </div>
           </>
         );
@@ -1045,7 +1064,7 @@ function StageIntroCard({ step }) {
         return (
           <>
             <div className="stage-text">
-              <p>In the previous stage, Net income appeared as one line within the statement of changes in equities. This stage opens that line.</p>
+              <p>In the previous stage, <strong>Net Income</strong> appeared as one line within the statement of changes in equities. This stage opens that line.</p>
               <p><strong>The income statement explains net income by showing the entity's revenue and expenses for the period.</strong></p>
             </div>
             <div className="eq-box">
@@ -1065,9 +1084,8 @@ function StageIntroCard({ step }) {
           <div className="stage-text">
             <p>You have now seen the full structure of the system.</p>
             <p>
-              The two balance sheets are the snapshots. The cash flow statement explains
-              the change in cash. The statement of changes in equities explains the change in
-              total equity. The income statement explains the net income line that appears
+              The <strong>two balance sheets</strong> are the <strong>snapshots</strong>. The <strong>cash flow statement</strong> explains
+              the change in <strong>cash</strong>. The <strong>statement of changes in equities</strong> explains the change in <strong>total equity</strong>. The <strong>income statement</strong> explains the <strong>net income</strong> line that appears
               within the equity story.
             </p>
             <p>
@@ -1147,14 +1165,16 @@ function GuidedArticulation() {
           )}
         </div>
 
-        {/* Grid: two-column at Stage 0, three-column from Stage 1 onward */}
-        <div className={'main-grid' + (step === 0 ? ' two-col' : '')}>
+        {/* Grid: two-column at Stage 0, single-column at Stage 5, three-column otherwise */}
+        <div className={'main-grid' + (step === 0 ? ' two-col' : '') + (step === 5 ? ' one-col' : '')}>
 
-          {/* Left: Opening Balance Sheet */}
-          <div>
-            <div className="bs-col-header">Opening Balance Sheet</div>
-            <StaticBalanceSheet data={OPENING} highlight={highlight} />
-          </div>
+          {/* Left: Opening Balance Sheet — hidden at Stage 5 */}
+          {step !== 5 && (
+            <div>
+              <div className="bs-col-header">Opening Balance Sheet</div>
+              <StaticBalanceSheet data={OPENING} highlight={highlight} />
+            </div>
+          )}
 
           {/* Center: Stage content — hidden at Stage 0 */}
           {step > 0 && (
@@ -1164,11 +1184,13 @@ function GuidedArticulation() {
             </div>
           )}
 
-          {/* Right: Closing Balance Sheet */}
-          <div>
-            <div className={closingHdrClass}>Closing Balance Sheet</div>
-            <StaticBalanceSheet data={CLOSING} highlight={highlight} />
-          </div>
+          {/* Right: Closing Balance Sheet — hidden at Stage 5 */}
+          {step !== 5 && (
+            <div>
+              <div className={closingHdrClass}>Closing Balance Sheet</div>
+              <StaticBalanceSheet data={CLOSING} highlight={highlight} />
+            </div>
+          )}
 
         </div>{/* /main-grid */}
 
