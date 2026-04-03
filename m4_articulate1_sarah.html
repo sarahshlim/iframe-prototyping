@@ -102,9 +102,18 @@
     flex-shrink: 0;
   }
 
+  /* ===== PAGE INTRO TEXT ===== */
+  .page-intro {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #373a44;
+    padding: 20px 20px 0;
+  }
+
   /* ===== OUTER WRAP ===== */
   .articulate-wrap {
-    padding: 0 16px 32px;
+    padding: 12px 16px 32px;
   }
 
   /* ===== STAGE PROGRESS ===== */
@@ -133,6 +142,14 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
     color: var(--accent);
+  }
+  .stage-card-title {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--accent);
+    margin-bottom: 8px;
   }
 
   /* ===== THREE-COLUMN GRID ===== */
@@ -203,7 +220,7 @@
     display: flex;
     justify-content: space-between;
     font-family: Inter, system-ui, sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
     color: var(--primary);
     padding-top: 8px;
@@ -212,18 +229,16 @@
   }
 
   /* Highlight states for guided emphasis */
-  .hl-cash {
-    background: rgba(22, 163, 74, 0.13);
-    padding: 4px 6px;
-    margin: 0 -6px;
-    border-radius: 3px;
-  }
   .hl-equity {
     background: rgba(146, 64, 14, 0.10);
     padding: 4px 6px;
     margin: 0 -6px;
     border-radius: 3px;
   }
+
+  /* Fade states for balance sheet de-emphasis */
+  .acct-fade-40 { opacity: 0.3; transition: opacity 0.25s; }
+  .acct-fade-50 { opacity: 0.5; transition: opacity 0.25s; }
 
   /* ===== CENTER COLUMN: TEXT CARD ===== */
   .center-card {
@@ -235,13 +250,14 @@
   }
   .stage-text {
     font-family: 'Open Sans', sans-serif;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.75;
     color: #2a2a2a;
   }
   .stage-text p { margin: 0 0 12px; }
   .stage-text p:last-child { margin-bottom: 0; }
   .stage-text strong { color: var(--primary); }
+  .stage-text.no-color-bold strong { color: inherit; }
   .stage-instruction {
     font-family: Inter, system-ui, sans-serif;
     font-size: 12px;
@@ -250,35 +266,6 @@
     line-height: 1.6;
     margin-top: 12px;
   }
-
-  /* ===== DELTA DISPLAY (Stage 1) ===== */
-  .delta-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 16px;
-  }
-  .delta-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 16px;
-    border-radius: 6px;
-    font-family: Inter, system-ui, sans-serif;
-    font-size: 13px;
-  }
-  .delta-row.dr-cash {
-    background: rgba(22, 163, 74, 0.09);
-    border: 1px solid rgba(22, 163, 74, 0.22);
-    color: #14532d;
-  }
-  .delta-row.dr-equity {
-    background: rgba(146, 64, 14, 0.08);
-    border: 1px solid rgba(146, 64, 14, 0.18);
-    color: #78350f;
-  }
-  .delta-row .dr-label { font-weight: 500; }
-  .delta-row .dr-amount { font-weight: 700; font-size: 15px; }
 
   /* ===== FLOW STATEMENT PANELS ===== */
   /* Color scheme mirrors the Simple Case activity tags:
@@ -302,10 +289,11 @@
   }
   .decomp-cfs h4 { color: #166534; }
   .decomp-sce h4 { color: #92400e; }
+  .decomp-is  h4 { color: #6d28d9; }
 
   .decomp-cat-label {
     font-family: Inter, system-ui, sans-serif;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.4px;
@@ -320,7 +308,7 @@
     padding: 3px 0;
     color: #555;
   }
-  .decomp-line .dl-val { font-weight: 600; }
+  .decomp-line .dl-val { font-weight: 600; color: #333; }
   .decomp-total {
     display: flex;
     justify-content: space-between;
@@ -332,6 +320,47 @@
     border-top: 1px solid #ddd;
   }
 
+  /* Clickable CFS line items */
+  .decomp-line.cfs-clickable {
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.12s;
+  }
+  .decomp-line.cfs-clickable:hover {
+    background: #f0f7f2;
+  }
+  .decomp-line.cfs-clickable.cfs-open {
+    background: #e8f4ec;
+    color: #333;
+  }
+  .cfs-expand-icon {
+    font-size: 11px;
+    margin-left: 6px;
+    opacity: 0.5;
+    user-select: none;
+    display: inline-block;
+    color: #166534;
+  }
+
+  /* Scenario card that expands below a CFS line */
+  .cfs-scenario {
+    background: #f6fbf7;
+    border: 1px solid #b7dfc3;
+    border-radius: 5px;
+    padding: 10px 13px;
+    margin: 4px 0 6px 12px;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #2d4a35;
+  }
+  .cfs-scenario p {
+    margin: 0 0 6px;
+  }
+  .cfs-scenario p:last-child {
+    margin-bottom: 0;
+  }
+
   /* Sealed net-income line */
   .sealed-line {
     display: flex;
@@ -340,8 +369,8 @@
     font-family: Inter, system-ui, sans-serif;
     font-size: 13px;
     padding: 7px 10px;
-    background: #fefaf2;
-    border: 1px dashed #d4b06a;
+    background: #f5f3ff;
+    border: 1px dashed #c4b5fd;
     border-radius: 4px;
     margin: 4px 0 2px;
     gap: 8px;
@@ -349,9 +378,8 @@
   .sealed-label { display: flex; flex-direction: column; gap: 2px; }
   .sealed-label .sl-main { font-weight: 500; color: #444; }
   .sealed-label .sl-note {
-    font-size: 10px;
+    font-size: 12px;
     color: #aaa;
-    font-style: italic;
     line-height: 1.4;
   }
   .sealed-val {
@@ -360,35 +388,44 @@
     padding-top: 1px;
   }
 
-  /* ===== CHANGE SUMMARY ===== */
-  .change-summary {
-    background: #f8f8f8;
-    border: 1px solid #e8e8e8;
+  /* ===== EQUATION BOX (Stage 1 — Cash Path) ===== */
+  .eq-box {
+    background: var(--primary-faint);
     border-radius: 5px;
-    padding: 12px 14px;
-    margin-bottom: 10px;
+    padding: 12px 12px;
+    font-size: 13px;
+    margin-top: 14px;
     font-family: Inter, system-ui, sans-serif;
   }
-  .cs-eyebrow {
-    font-size: 10px;
-    font-weight: 600;
+  .eq-box-heading {
+    font-size: 13px;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.4px;
-    color: #777;
-    margin-bottom: 6px;
-  }
-  .cs-flow {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
     color: #555;
-    flex-wrap: wrap;
-    margin-bottom: 3px;
+    margin-bottom: 14px;
   }
-  .cs-arrow { color: #ccc; }
-  .cs-change { font-size: 12px; color: #555; margin-bottom: 3px; }
-  .cs-note { font-size: 11px; color: #999; font-style: italic; }
+  .eq-group {
+    margin-bottom: 8px;
+  }
+  .eq-group:last-of-type {
+    margin-bottom: 0;
+  }
+  .eq-source {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 2px;
+  }
+  .eq-formula {
+    color: #444;
+    font-family: 'Georgia', serif;
+    font-size: 15px;
+  }
+  .eq-note {
+    font-size: 13px;
+    color: #666;
+    margin-top: 6px;
+  }
 
   /* ===== REFLECTION PROMPT (Stage 5) ===== */
   .prompt-card {
@@ -452,7 +489,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 18px;
+    margin-top: 0;
+    margin-bottom: 20px;
   }
   .btn-back {
     font-family: Inter, system-ui, sans-serif;
@@ -482,12 +520,29 @@
   .btn-next:hover { background: var(--primary-light); }
   .btn-next:disabled { background: #ccc; cursor: default; }
 
+  /* Two-column grid variant for Stage 0 (no center column) */
+  .main-grid.two-col { grid-template-columns: 1fr 1fr; }
+  @media (max-width: 580px) {
+    .main-grid.two-col { grid-template-columns: 1fr; }
+  }
+
+  /* ===== RESPONSIVE: STAGE TEXT SCALE-UP ===== */
+  @media (min-width: 900px) {
+    .stage-text { font-size: 16px; }
+    .bs-col-header { font-size: 12px; }
+    .acct-line { font-size: 14px; }
+  }
+  @media (min-width: 1200px) {
+    .stage-text { font-size: 17px; }
+    .acct-line { font-size: 15px; }
+  }
+
   /* ===== RESPONSIVE ===== */
   @media (max-width: 860px) {
     .main-grid { grid-template-columns: 1fr 1.5fr 1fr; gap: 8px; }
-    .acct-line { font-size: 12px; }
+    .acct-line { font-size: 13px; }
     .decomp-line { font-size: 12px; }
-    .stage-text { font-size: 13px; }
+    .stage-text { font-size: 15px; }
     .dib-val { font-size: 13px; }
   }
   @media (max-width: 580px) {
@@ -528,8 +583,8 @@ const STORAGE_KEY = 'prework_articulate1';
 //   CFS: 26K − 10K + 2K = 18K net change; 40K + 18K = 58K        ✓
 //   SCE: 70K + 8K − 4K + 20K = 94K closing                        ✓
 
-const OPENING = { cash: 40000, nonCash: 80000, liabilities: 50000, equities: 70000 };
-const CLOSING  = { cash: 58000, nonCash: 92000, liabilities: 56000, equities: 94000 };
+const OPENING = { cash: 40000, nonCash: 80000, loan: 50000, contributed: 60000, retained: 10000 };
+const CLOSING  = { cash: 58000, nonCash: 92000, loan: 56000, contributed: 60000, retained: 34000 };
 
 const CFS = {
   operating:  26000,
@@ -540,20 +595,25 @@ const CFS = {
 
 const SCE = {
   opening:       70000,
-  contributions:  8000,
   distributions: -4000,
-  netIncome:     20000,
+  netIncome:     28000,
   closing:       94000,
+};
+
+const IS = {
+  revenue:   52000,
+  expenses: -24000,
+  netIncome: 28000,   // must equal SCE.netIncome
 };
 
 // ===== STAGE DEFINITIONS =====
 const STAGES = [
-  { id: 'snapshots',   centerHeader: 'The Question',                    label: 'Two Snapshots'   },
-  { id: 'one-change',  centerHeader: 'One Change',                      label: 'One Change'      },
-  { id: 'cash-path',   centerHeader: 'What Changed, and Why: Cash',     label: 'The Cash Path'   },
-  { id: 'equity-path', centerHeader: 'What Changed, and Why: Equities', label: 'The Equity Path' },
-  { id: 'system',      centerHeader: 'What Changed, and Why',           label: 'The System'      },
-  { id: 'consolidate', centerHeader: 'Reflect',                         label: 'Consolidate'     },
+  { id: 'snapshots',   centerHeader: 'The Question',                    label: 'Two Snapshots'        },
+  { id: 'cash-path',   centerHeader: 'What Changed and Why: Cash',     label: 'The Cash Path'        },
+  { id: 'equity-path', centerHeader: 'What Changed and Why: Equities', label: 'The Equity Path'      },
+  { id: 'income-stmt', centerHeader: 'What Changed and Why: Net Income', label: 'The Net Income Path'  },
+  { id: 'system',      centerHeader: 'What Changed and Why',           label: 'The System'           },
+  { id: 'consolidate', centerHeader: 'Reflect',                         label: 'Consolidate'          },
 ];
 
 // ===== FORMATTERS =====
@@ -565,7 +625,7 @@ function fmt(n) {
 function fmtChange(n) {
   if (n === 0) return '$0';
   const abs = '$' + Math.abs(n).toLocaleString();
-  return n > 0 ? '+' + abs : '(' + abs + ')';
+  return n > 0 ? abs : '(' + abs + ')';
 }
 function amtColor(n) {
   if (n > 0) return '#166534';
@@ -590,12 +650,12 @@ function DualIdentityBar() {
           <span className="dib-op">&minus;</span>
           <div className="dib-group">
             <span className="dib-label">Liabilities</span>
-            <span className="dib-val">{fmt(data.liabilities)}</span>
+            <span className="dib-val">{fmt(data.loan)}</span>
           </div>
           <span className="dib-op">=</span>
           <div className="dib-group">
             <span className="dib-label">Equities</span>
-            <span className="dib-val">{fmt(data.equities)}</span>
+            <span className="dib-val">{fmt(data.contributed + data.retained)}</span>
           </div>
         </div>
       </div>
@@ -615,91 +675,134 @@ function DualIdentityBar() {
 // Displays a balance sheet at the single-line equities level.
 // highlight: null | 'cash' | 'equity' | 'both'
 function StaticBalanceSheet({ data, highlight }) {
-  const totalAssets = data.cash + data.nonCash;
-  const hlCash   = highlight === 'cash'   || highlight === 'both';
-  const hlEquity = highlight === 'equity' || highlight === 'both';
+  const totalAssets  = data.cash + data.nonCash;
+  const hlEquity     = highlight === 'both';
+  const fadeCash     = highlight === 'cash';    // fade all except Cash row
+  const fadeEquity   = highlight === 'equity';  // fade all except Retained earnings + Total Equities
+
+  const fc = fadeCash  ? ' acct-fade-40' : '';
+  const fe = fadeEquity ? ' acct-fade-40' : '';
+  const fh = (fadeCash || fadeEquity) ? ' acct-fade-50' : '';  // section headings
 
   return (
     <div>
       <div className="acct-col">
-        <h4>Assets</h4>
-        <div className={'acct-line' + (hlCash ? ' hl-cash' : '')}>
+        <h4 className={fadeEquity ? 'acct-fade-50' : ''}>Assets</h4>
+        <div className={'acct-line' + fe}>
           <span>Cash</span>
           <span className="acct-val">{fmt(data.cash)}</span>
         </div>
-        <div className="acct-line">
+        <div className={'acct-line' + fc + fe}>
           <span>Non-cash assets</span>
           <span className="acct-val">{fmt(data.nonCash)}</span>
         </div>
-        <div className="acct-total">
+        <div className={'acct-total' + fc + fe}>
           <span>Total Assets</span>
           <span>{fmt(totalAssets)}</span>
         </div>
       </div>
 
       <div className="acct-col">
-        <h4>Liabilities</h4>
-        <div className="acct-line">
-          <span>Liabilities</span>
-          <span className="acct-val">{fmt(data.liabilities)}</span>
+        <h4 className={fh.trim()}>Liabilities</h4>
+        <div className={'acct-line' + fc + fe}>
+          <span>Bank loan</span>
+          <span className="acct-val">{fmt(data.loan)}</span>
+        </div>
+        <div className={'acct-total' + fc + fe}>
+          <span>Total Liabilities</span>
+          <span>{fmt(data.loan)}</span>
         </div>
       </div>
 
       <div className="acct-col">
         <h4>Equities</h4>
-        <div className={'acct-line' + (hlEquity ? ' hl-equity' : '')}>
-          <span>Equities</span>
-          <span className="acct-val">{fmt(data.equities)}</span>
+        <div className={'acct-line' + fc + fe}>
+          <span>Contributed capital</span>
+          <span className="acct-val">{fmt(data.contributed)}</span>
+        </div>
+        <div className={'acct-line' + (hlEquity ? ' hl-equity' : '') + fc}>
+          <span>Retained earnings</span>
+          <span className="acct-val">{fmt(data.retained)}</span>
+        </div>
+        <div className={'acct-total' + (hlEquity ? ' hl-equity' : '') + fc}>
+          <span>Total Equities</span>
+          <span>{fmt(data.contributed + data.retained)}</span>
         </div>
       </div>
     </div>
   );
 }
 
-// ===== CHANGE SUMMARY =====
-// "What this statement explains" box — matches the ChangeSummary
-// component used in the Simple Case activity.
-function ChangeSummary({ openingAmt, closingAmt, color, statementLabel }) {
-  const change = closingAmt - openingAmt;
-  return (
-    <div className="change-summary">
-      <div className="cs-eyebrow">What this statement explains</div>
-      <div className="cs-flow">
-        <span>Opening: <strong style={{ color }}>{fmt(openingAmt)}</strong></span>
-        <span className="cs-arrow">&#8594;</span>
-        <span>Closing: <strong style={{ color }}>{fmt(closingAmt)}</strong></span>
-      </div>
-      <div className="cs-change">
-        Change: <strong style={{ color }}>{fmtChange(change)}</strong>
-      </div>
-      <div className="cs-note">{statementLabel} accounts for the full difference.</div>
+
+
+// ===== CFS SCENARIO TEXTS =====
+const CFS_SCENARIOS = {
+  operating: (
+    <div className="cfs-scenario">
+      <p>During the period, the entity received $26,000 in cash from its core business activities.</p>
+      <p>For example, it may have sold products or provided services and collected cash from customers. Because this cash came from the entity's regular operations, it appears under Operating in the statement of cash flows.</p>
     </div>
-  );
-}
+  ),
+  investing: (
+    <div className="cfs-scenario">
+      <p>During the period, the entity used $10,000 of cash to acquire a longer-term resource.</p>
+      <p>For example, it may have purchased equipment that will help the business operate in future periods. Because this cash was used to invest in a long-term asset, it appears under Investing.</p>
+    </div>
+  ),
+  financing: (
+    <div className="cfs-scenario">
+      <p>During the period, the entity received $2,000 of cash from financing activity.</p>
+      <p>For example, the entity may have borrowed cash through its bank loan. Because this cash came from financing rather than from business operations, it appears under Financing.</p>
+    </div>
+  ),
+};
 
 // ===== CFS PANEL =====
+// Each category line is clickable; multiple scenario cards can be open at once.
 function CfsPanel() {
+  const [openKeys, setOpenKeys] = useState(new Set());
+
+  function toggle(key) {
+    setOpenKeys(prev => {
+      const next = new Set(prev);
+      next.has(key) ? next.delete(key) : next.add(key);
+      return next;
+    });
+  }
+
+  function CfsLine({ lineKey, label, amount }) {
+    const isOpen = openKeys.has(lineKey);
+    return (
+      <>
+        <div
+          className={'decomp-line cfs-clickable' + (isOpen ? ' cfs-open' : '')}
+          onClick={() => toggle(lineKey)}
+          role="button"
+          aria-expanded={isOpen}
+        >
+          <span>
+            &ensp;{label}
+            <span className="cfs-expand-icon">{isOpen ? '▲' : '▼'}</span>
+          </span>
+          <span className="dl-val">{fmtChange(amount)}</span>
+        </div>
+        {isOpen && CFS_SCENARIOS[lineKey]}
+      </>
+    );
+  }
+
   return (
     <div className="decomp-section decomp-cfs" style={{ borderLeft: '3px solid #166534' }}>
-      <h4>Statement of Cash Flows</h4>
+      <h4>Cash Flow Statement</h4>
 
       <div className="decomp-cat-label">Operating</div>
-      <div className="decomp-line">
-        <span>&ensp;Cash from operations</span>
-        <span className="dl-val" style={{ color: amtColor(CFS.operating) }}>{fmtChange(CFS.operating)}</span>
-      </div>
+      <CfsLine lineKey="operating" label="Cash from operations" amount={CFS.operating} />
 
       <div className="decomp-cat-label">Investing</div>
-      <div className="decomp-line">
-        <span>&ensp;Cash used in investing</span>
-        <span className="dl-val" style={{ color: amtColor(CFS.investing) }}>{fmtChange(CFS.investing)}</span>
-      </div>
+      <CfsLine lineKey="investing" label="Cash used in investing" amount={CFS.investing} />
 
       <div className="decomp-cat-label">Financing</div>
-      <div className="decomp-line">
-        <span>&ensp;Cash from financing</span>
-        <span className="dl-val" style={{ color: amtColor(CFS.financing) }}>{fmtChange(CFS.financing)}</span>
-      </div>
+      <CfsLine lineKey="financing" label="Cash from financing" amount={CFS.financing} />
 
       <div className="decomp-total" style={{ color: '#166534' }}>
         <span>Net change in cash</span>
@@ -720,22 +823,19 @@ function ScePanel() {
         <span>&ensp;Opening equities</span>
         <span className="dl-val">{fmt(SCE.opening)}</span>
       </div>
-      <div className="decomp-line">
-        <span>&ensp;Owner contributions</span>
-        <span className="dl-val" style={{ color: amtColor(SCE.contributions) }}>{fmtChange(SCE.contributions)}</span>
-      </div>
-      <div className="decomp-line">
-        <span>&ensp;Distributions to owners</span>
-        <span className="dl-val" style={{ color: amtColor(SCE.distributions) }}>{fmtChange(SCE.distributions)}</span>
-      </div>
 
-      {/* Sealed net income line — deferred to next activity */}
+      {/* Sealed net income line — explained in the next stage */}
       <div className="sealed-line">
         <div className="sealed-label">
           <span className="sl-main">Net income</span>
-          <span className="sl-note">The income statement explains this — coming in the next activity</span>
+          <span className="sl-note">The income statement explains this. See the next stage.</span>
         </div>
-        <span className="sealed-val" style={{ color: amtColor(SCE.netIncome) }}>{fmtChange(SCE.netIncome)}</span>
+        <span className="sealed-val">{fmtChange(SCE.netIncome)}</span>
+      </div>
+
+      <div className="decomp-line">
+        <span>&ensp;Distributions to owners</span>
+        <span className="dl-val">{fmtChange(SCE.distributions)}</span>
       </div>
 
       <div className="decomp-total" style={{ color: '#92400e' }}>
@@ -746,139 +846,69 @@ function ScePanel() {
   );
 }
 
+// ===== IS PANEL =====
+// Static income statement: Revenue − Expenses = Net income.
+function IsPanel() {
+  return (
+    <div className="decomp-section decomp-is" style={{ borderLeft: '3px solid #6d28d9' }}>
+      <h4>Income Statement</h4>
+
+      <div className="decomp-line">
+        <span>&ensp;Revenue</span>
+        <span className="dl-val">{fmtChange(IS.revenue)}</span>
+      </div>
+      <div className="decomp-line">
+        <span>&ensp;Expenses</span>
+        <span className="dl-val">{fmtChange(IS.expenses)}</span>
+      </div>
+
+      <div className="decomp-total" style={{ color: '#6d28d9' }}>
+        <span>Net income</span>
+        <span>{fmtChange(IS.netIncome)}</span>
+      </div>
+    </div>
+  );
+}
+
+// ===== STAGE 4 — The Income Statement =====
+function StageIncomeStmt() {
+  return (
+    <div>
+      <IsPanel />
+    </div>
+  );
+}
+
 // ===== STAGE 0 — Two Snapshots =====
 function StageSnapshots() {
-  return (
-    <div className="center-card">
-      <div className="stage-text">
-        <p>Each balance sheet is a snapshot of the entity's financial position at a date.</p>
-        <p>
-          These two — one from the beginning of the period, one from the end — are the
-          bookends. They show where the entity stood at two moments. They don't show what
-          happened between them.
-        </p>
-        <p>
-          <strong>The snapshots frame the question. The flow statements provide the explanation.</strong>
-        </p>
-      </div>
-      <p className="stage-instruction">
-        Look at both balance sheets. The steps that follow will show how the financial
-        statements explain the change between them.
-      </p>
-    </div>
-  );
+  return null;
 }
 
-// ===== STAGE 1 — One Change =====
-function StageOneChange() {
-  const cashChange   = CLOSING.cash     - OPENING.cash;
-  const equityChange = CLOSING.equities - OPENING.equities;
-  return (
-    <div className="center-card">
-      <div className="stage-text">
-        <p>There is one change — the difference between the opening balance sheet and the closing balance sheet.</p>
-        <p>
-          Two things shifted during the period: cash and equity. The flow statements aren't
-          separate reports that happen to agree with those shifts. They are decompositions of
-          that one change, each explaining a different part of it.
-        </p>
-      </div>
-      <div className="delta-grid">
-        <div className="delta-row dr-cash">
-          <span className="dr-label">Cash changed by</span>
-          <span className="dr-amount">{fmtChange(cashChange)}</span>
-        </div>
-        <div className="delta-row dr-equity">
-          <span className="dr-label">Equities changed by</span>
-          <span className="dr-amount">{fmtChange(equityChange)}</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ===== STAGE 2 — The Cash Path =====
+// ===== STAGE 1 — The Cash Path =====
 function StageCashPath() {
   return (
     <div>
-      <div className="center-card">
-        <div className="stage-text">
-          <p>The statement of cash flows explains the change in cash during the period.</p>
-          <p>
-            It isn't a separate report that happens to agree with what you see in the balance
-            sheet. It is that change — from opening cash to closing cash — decomposed into
-            operating, investing, and financing categories.
-          </p>
-        </div>
-      </div>
       <CfsPanel />
-      <ChangeSummary
-        openingAmt={OPENING.cash}
-        closingAmt={CLOSING.cash}
-        color="#166534"
-        statementLabel="The cash flow statement"
-      />
-      <p className="stage-footnote">
-        That's the cash path: one change in one asset, fully explained by one statement.
-      </p>
     </div>
   );
 }
 
-// ===== STAGE 3 — The Equity Path =====
+// ===== STAGE 2 — The Equity Path =====
 function StageEquityPath() {
   return (
     <div>
-      <div className="center-card">
-        <div className="stage-text">
-          <p>
-            The statement of changes in equities tracks the full movement from opening equities
-            to closing equities. It is the full bridge from one balance sheet to the next.
-          </p>
-          <p>
-            Two things moved equity during the period: owner activity — contributions in and
-            distributions out — and the result of the entity's operations.
-          </p>
-        </div>
-      </div>
       <ScePanel />
-      <ChangeSummary
-        openingAmt={OPENING.equities}
-        closingAmt={CLOSING.equities}
-        color="#92400e"
-        statementLabel="The statement of changes in equities"
-      />
-      <p className="stage-footnote">
-        That's the equity path: owner contributions, distributions, and the result of
-        operations — together they account for the full movement from one balance sheet
-        to the next.
-      </p>
     </div>
   );
 }
 
-// ===== STAGE 4 — The System =====
+// ===== STAGE 5 — The System =====
 function StageSystem() {
   return (
     <div>
-      <div className="center-card">
-        <div className="stage-text">
-          <p>It's tempting to think of these as separate reports that happen to fit together. They're not.</p>
-          <p>
-            There is one change — the difference between the opening balance sheet and the
-            closing balance sheet — and both statements are decompositions of that change.
-          </p>
-          <p>
-            The cash flow statement explains what happened to cash.<br />
-            The statement of changes in equities explains what happened to equity.
-          </p>
-          <p>
-            <strong>The balance sheets are the snapshots. The flow statements are the explanation.</strong>
-          </p>
-        </div>
-      </div>
       <CfsPanel />
       <ScePanel />
+      <IsPanel />
     </div>
   );
 }
@@ -907,18 +937,10 @@ function StageConsolidate() {
 
   return (
     <div>
-      <div className="center-card">
-        <div className="stage-text">
-          <p>
-            The structure is visible now: two snapshots, and the statements that explain
-            the change between them.
-          </p>
-        </div>
-      </div>
       <div className="prompt-card">
         <p className="prompt-q">
-          In a few sentences: what do the two balance sheets tell you, and what do the
-          flow statements tell you that the balance sheets alone cannot?
+          In your own words: what do the two balance sheets tell you, and what do the
+          other statements explain that the balance sheets alone do not?
         </p>
         <textarea
           value={val}
@@ -926,10 +948,6 @@ function StageConsolidate() {
           onBlur={() => save(val)}
           placeholder="Write your response here…"
         />
-      </div>
-      <div className="transition-note">
-        The next activity opens up the equity path further — you'll examine the income
-        statement and see how it explains the net income line you encountered here.
       </div>
     </div>
   );
@@ -939,13 +957,144 @@ function StageConsolidate() {
 function CenterPanel({ step }) {
   switch (step) {
     case 0: return <StageSnapshots />;
-    case 1: return <StageOneChange />;
-    case 2: return <StageCashPath />;
-    case 3: return <StageEquityPath />;
+    case 1: return <StageCashPath />;
+    case 2: return <StageEquityPath />;
+    case 3: return <StageIncomeStmt />;
     case 4: return <StageSystem />;
     case 5: return <StageConsolidate />;
     default: return null;
   }
+}
+
+// ===== FULL-WIDTH INTRO CARD =====
+// Renders above the three-column grid for every stage.
+function StageIntroCard({ step }) {
+  function cardBody() {
+    switch (step) {
+      case 0:
+        return (
+          <div className="stage-text no-color-bold">
+            <p>Start by comparing the opening and closing balance sheets. Each one is a snapshot of the entity's financial position at a different date.</p>
+            <p>The two snapshots are <strong>not</strong> the same. Assets changed. Liabilities changed. Equity changed.</p>
+            <p>The balance sheets show that the entity changed over the period, but by themselves they do not explain how or why those changes happened. In the next stages, you will follow some of the most important parts of that change — including <strong>cash</strong>, <strong>equity</strong>, and <strong>net income</strong> — and see how the other financial statements explain them.</p>
+          </div>
+        );
+      case 1:
+        return (
+          <>
+            <div className="stage-text">
+              <p>
+                Look first at the <strong>Cash</strong> line under Assets in both balance sheets. The opening
+                and closing cash balances are different, so this change needs explanation.
+              </p>
+              <p>
+                <strong>The cash flow statement provides that explanation.</strong> It shows why cash
+                changed during the period by breaking the change into <strong>operating</strong>, <strong>investing</strong>,
+                and <strong>financing</strong> cash flows.
+              </p>
+            </div>
+            <div className="eq-box">
+              <div className="eq-box-heading">Two ways to see the same cash change</div>
+              <div className="eq-group">
+                <div className="eq-source">From the balance sheet</div>
+                <div className="eq-formula">Change in Cash = Closing Cash &minus; Opening Cash</div>
+              </div>
+              <div className="eq-group">
+                <div className="eq-source">From the cash flow statement</div>
+                <div className="eq-formula">Net Change in Cash = Operating Cash Flow + Investing Cash Flow + Financing Cash Flow</div>
+              </div>
+              <div className="eq-note">* These two amounts should match.</div>
+            </div>
+            <div className="stage-text" style={{ marginTop: '12px' }}>
+              <p>
+                Click each cash flow category to see a simple scenario behind the amount.
+              </p>
+            </div>
+          </>
+        );
+      case 2:
+        return (
+          <>
+            <div className="stage-text">
+              <p>Now look at the <strong>Equities</strong> section in the two balance sheets. Total equity increased over the period.</p>
+              <p><strong>The statement of changes in equities explains that movement.</strong> In this example, the entity earned income during the period and distributed part of that amount to owners. Because contributed capital stayed the same, the change in total equity comes through retained earnings.</p>
+            </div>
+            <div className="eq-box">
+              <div className="eq-box-heading">Three ways to understand the equity change</div>
+              <div className="eq-group">
+                <div className="eq-source">From the balance sheet</div>
+                <div className="eq-formula">Change in Total Equities = Closing Equities &minus; Opening Equities</div>
+                <div className="eq-formula">Change in Retained Earnings = Closing Retained Earnings &minus; Opening Retained Earnings</div>
+              </div>
+              <div className="eq-group">
+                <div className="eq-source">In this example</div>
+                <div className="eq-formula">Change in Total Equities = Change in Retained Earnings</div>
+                <div className="eq-note">* This is because contributed capital stayed the same.</div>
+              </div>
+              <div className="eq-group">
+                <div className="eq-source">From the statement of changes in equities</div>
+                <div className="eq-formula">Closing Retained Earnings = Opening Retained Earnings + Net Income &minus; Distributions to Owners</div>
+              </div>
+            </div>
+            <div className="stage-text" style={{ marginTop: '12px' }}>
+              <p>One of the lines in this statement is <strong>net income</strong>. In the next stage, you will open that line and see how the income statement explains it.</p>
+            </div>
+          </>
+        );
+      case 3:
+        return (
+          <>
+            <div className="stage-text">
+              <p>In the previous stage, Net income appeared as one line within the statement of changes in equities. This stage opens that line.</p>
+              <p><strong>The income statement explains net income by showing the entity's revenue and expenses for the period.</strong></p>
+            </div>
+            <div className="eq-box">
+              <div className="eq-box-heading">How net income is calculated</div>
+              <div className="eq-group">
+                <div className="eq-source">From the income statement</div>
+                <div className="eq-formula">Net Income = Revenue &minus; Expenses</div>
+              </div>
+            </div>
+            <div className="stage-text" style={{ marginTop: '12px' }}>
+              <p>This net income is the same $28,000 that appeared in the statement of changes in equities in the previous stage.</p>
+            </div>
+          </>
+        );
+      case 4:
+        return (
+          <div className="stage-text">
+            <p>You have now seen the full structure of the system.</p>
+            <p>
+              The two balance sheets are the snapshots. The cash flow statement explains
+              the change in cash. The statement of changes in equities explains the change in
+              total equity. The income statement explains the net income line that appears
+              within the equity story.
+            </p>
+            <p>
+              These are not separate reports that happen to fit together. They are connected
+              explanations of the change between the opening and closing balance sheets.
+            </p>
+          </div>
+        );
+      case 5:
+        return (
+          <div className="stage-text">
+            <p>The structure is now complete. Take a moment to consolidate what you've seen.</p>
+          </div>
+        );
+      default:
+        return null;
+    }
+  }
+
+  const body = cardBody();
+  if (!body) return null;
+  return (
+    <div className="center-card">
+      <div className="stage-card-title">{STAGES[step].label}</div>
+      {body}
+    </div>
+  );
 }
 
 // ===== MAIN COMPONENT =====
@@ -958,58 +1107,26 @@ function GuidedArticulation() {
 
   // Which balance sheet rows to highlight at each stage
   const highlight = (() => {
-    if (step === 1 || step === 4) return 'both';
-    if (step === 2) return 'cash';
-    if (step === 3) return 'equity';
+    if (step === 4) return null;
+    if (step === 1) return 'cash';
+    if (step === 2 || step === 3) return 'equity';
     return null;
   })();
 
   // Closing balance sheet header turns accent after Stage 0 to signal
   // that the period has now begun to unfold.
-  const closingHdrClass = 'bs-col-header' + (step > 0 ? ' closing' : '');
+  const closingHdrClass = 'bs-col-header';
 
   return (
     <div>
-      <DualIdentityBar />
+      <div className="page-intro">
+        <p>Page Introduction Text (to be added).</p>
+      </div>
 
       <div className="articulate-wrap">
 
-        {/* Stage progress indicator */}
-        <div className="stage-progress">
-          {STAGES.map((s, i) => (
-            <div
-              key={s.id}
-              className={
-                'stage-dot' +
-                (i === step ? ' active' : i < step ? ' done' : '')
-              }
-            />
-          ))}
-          <span className="stage-label-pill">{stage.label}</span>
-        </div>
-
-        {/* Three-column grid */}
-        <div className="main-grid">
-
-          {/* Left: Opening Balance Sheet */}
-          <div>
-            <div className="bs-col-header">Opening Balance Sheet</div>
-            <StaticBalanceSheet data={OPENING} highlight={highlight} />
-          </div>
-
-          {/* Center: Stage content */}
-          <div>
-            <div className="bs-col-header center-hdr">{stage.centerHeader}</div>
-            <CenterPanel step={step} />
-          </div>
-
-          {/* Right: Closing Balance Sheet */}
-          <div>
-            <div className={closingHdrClass}>Closing Balance Sheet</div>
-            <StaticBalanceSheet data={CLOSING} highlight={highlight} />
-          </div>
-
-        </div>{/* /main-grid */}
+        {/* Full-width intro card — renders above the grid for every stage */}
+        <StageIntroCard step={step} />
 
         {/* Navigation */}
         <div className="nav-buttons">
@@ -1029,6 +1146,31 @@ function GuidedArticulation() {
             </button>
           )}
         </div>
+
+        {/* Grid: two-column at Stage 0, three-column from Stage 1 onward */}
+        <div className={'main-grid' + (step === 0 ? ' two-col' : '')}>
+
+          {/* Left: Opening Balance Sheet */}
+          <div>
+            <div className="bs-col-header">Opening Balance Sheet</div>
+            <StaticBalanceSheet data={OPENING} highlight={highlight} />
+          </div>
+
+          {/* Center: Stage content — hidden at Stage 0 */}
+          {step > 0 && (
+            <div>
+              <div className="bs-col-header">{stage.centerHeader}</div>
+              <CenterPanel step={step} />
+            </div>
+          )}
+
+          {/* Right: Closing Balance Sheet */}
+          <div>
+            <div className={closingHdrClass}>Closing Balance Sheet</div>
+            <StaticBalanceSheet data={CLOSING} highlight={highlight} />
+          </div>
+
+        </div>{/* /main-grid */}
 
       </div>{/* /articulate-wrap */}
     </div>
