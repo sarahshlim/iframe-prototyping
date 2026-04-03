@@ -325,6 +325,8 @@
     cursor: pointer;
     border-radius: 4px;
     transition: background 0.12s;
+    padding-left: 4px;
+    padding-right: 4px;
   }
   .decomp-line.cfs-clickable:hover {
     background: #f0f7f2;
@@ -788,7 +790,7 @@ function CfsPanel() {
           aria-expanded={isOpen}
         >
           <span>
-            &ensp;{label}
+            {label}
             <span className="cfs-expand-icon">{isOpen ? '▲' : '▼'}</span>
           </span>
           <span className="dl-val">{fmtChange(amount)}</span>
