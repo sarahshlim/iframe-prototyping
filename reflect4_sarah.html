@@ -265,7 +265,7 @@
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     padding: 20px;
-    margin: 20px 0;
+    margin: 20px 0 0 0;
   }
   .reveal-box h3 {
     font-family: Inter, system-ui, sans-serif;
@@ -899,7 +899,7 @@ function DecompTracker({ isEntries, cfsEntries, sceEntries, netIncome, step, acc
             if (items.length === 0) return null;
             return (
               <div key={cat} style={{ marginBottom: 6 }}>
-                <div style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 11, color: '#888', textTransform: 'uppercase', letterSpacing: '0.3px', marginTop: 4 }}>
+                <div style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 11, fontWeight: 600, color: '#888', textTransform: 'uppercase', letterSpacing: '0.3px', marginTop: 4 }}>
                   {cat}
                 </div>
                 {items.map((e, i) => (
@@ -925,7 +925,7 @@ function DecompTracker({ isEntries, cfsEntries, sceEntries, netIncome, step, acc
         }
         {cfsEntries.length > 0 && (
           <div className="decomp-total" style={{ color: '#166534' }}>
-            <span>Change in Cash</span><span>{fmt(cfsTotal)}</span>
+            <span>Net change in cash</span><span>{fmt(cfsTotal)}</span>
           </div>
         )}
       </div>
@@ -950,7 +950,7 @@ function DecompTracker({ isEntries, cfsEntries, sceEntries, netIncome, step, acc
         }
         {isEntries.length > 0 && (
           <div className="decomp-total" style={{ color: '#6d28d9' }}>
-            <span>Net Income</span><span>{fmt(netIncome)}</span>
+            <span>Net income</span><span>{fmt(netIncome)}</span>
           </div>
         )}
       </div>
@@ -971,25 +971,6 @@ function DecompTracker({ isEntries, cfsEntries, sceEntries, netIncome, step, acc
 }
 
 // ===== TIMELINE SVG =====
-function TimelineSVG({ step, total }) {
-  const W = 540, H = 80;
-  const pct = step / total;
-  const fillW = Math.max(0, Math.min(360, pct * 360));
-  return (
-    <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ maxWidth: W, display: 'block', margin: '0 auto 16px' }}>
-      <rect x="50" y="10" width="30" height="50" rx="3" fill="#00329d" />
-      <text x="65" y="72" textAnchor="middle" fontSize="9" fill="#00329d" fontFamily="Inter, system-ui, sans-serif" fontWeight="600">Opening</text>
-      <rect x="460" y="10" width="30" height="50" rx="3" fill={step >= total ? '#00329d' : '#ccc'} />
-      <text x="475" y="72" textAnchor="middle" fontSize="9" fill={step >= total ? '#00329d' : '#999'} fontFamily="Inter, system-ui, sans-serif" fontWeight="600">Closing</text>
-      <line x1="90" y1="35" x2="450" y2="35" stroke="#e0e0e0" strokeWidth="2" />
-      <line x1="90" y1="35" x2={90 + fillW} y2="35" stroke="#286dc0" strokeWidth="3" />
-      <circle cx={90 + fillW} cy="35" r="5" fill="#286dc0" />
-      <text x={90 + fillW} y="55" textAnchor="middle" fontSize="9" fill="#286dc0" fontFamily="Inter, system-ui, sans-serif" fontWeight="500">
-        {step > 0 && step < total ? `${step} of ${total}` : ''}
-      </text>
-    </svg>
-  );
-}
 
 // ===== PROMPT =====
 function Prompt({ promptKey, promptText, number, total }) {
@@ -1103,13 +1084,12 @@ function TransactionSequencer() {
       >
         Step through the first year of a new entity. Each transaction updates the accounting identity and builds the financial statements from scratch.
       </p>
-      <p style={{ fontFamily: "'Open Sans', sans-serif", fontSize: '1rem', lineHeight: 1.7, color: '#373a44', marginTop: '1rem', marginBottom: 8 }}>
+      <p style={{ fontFamily: "'Open Sans', sans-serif", fontSize: '1rem', lineHeight: 1.7, color: '#373a44', marginTop: '1rem', marginBottom: 12 }}>
         As you work through the activity, pay close attention to the <strong>architecture</strong>: the two balance sheets are snapshots of the entity's financial position at different dates, and the flow statements decompose the difference between them.
       </p>
 
       <div className="reflect4-grid-wrap">
       <div className="reflect4-fixed-min">
-      <TimelineSVG step={txnsProcessed} total={totalTxns} />
 
       {/* === TRANSACTION CARD: full-width below timeline === */}
       <div className="txn-area">
