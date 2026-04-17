@@ -38,6 +38,7 @@ Prototype pages:
 - `https://sarahshlim.github.io/iframe-prototyping/entity-diagram-prompts.html`
 - `https://sarahshlim.github.io/iframe-prototyping/homework.html`
 - `https://sarahshlim.github.io/iframe-prototyping/m4_articulate1_sarah.html`
+- `https://sarahshlim.github.io/iframe-prototyping/m4_balancesheet_sarah.html`
 
 ## Notes on workflow
 
@@ -48,7 +49,7 @@ Prototype pages:
   - `shared.css` (only when a shared styling change is necessary)
 - Avoid changing `shared.js` or `config.js` unless the change truly requires logic updates.
 
-## Purpose of the Transaction Sequencer prototype ('System in Action: Simple Case' activity)
+## Purpose of the Transaction Activity prototype ('System in Action: Simple Case' activity)
 
 The goal of the transaction-sequencer activity is to help learners see the architecture of financial statements:
 
