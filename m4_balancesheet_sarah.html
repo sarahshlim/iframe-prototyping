@@ -5,32 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Balance Sheet Identity — Activity 1</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Open+Sans:wght@700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   background: #e6e9f2;
-  font-family: 'Inter', system-ui, sans-serif;
-  color: #111;
+  font-family: Inter, system-ui, sans-serif;
+  color: #2a2a2a;
   min-height: 100vh;
   width: 100%;
 }
 
 .page {
   width: 100%;
-  padding: 36px clamp(16px, 5vw, 60px) 80px;
+  padding: 36px 16px 80px;
 }
 
 /* ── Page header ──────────────────────────────────── */
-.page-title { font-size: clamp(22px, 3vw, 28px); font-weight: 700; margin-bottom: 4px; font-family: 'Inter', sans-serif; }
+.page-title { font-size: clamp(22px, 3vw, 28px); font-weight: 700; margin-bottom: 4px; font-family: Inter, system-ui, sans-serif; }
 .page-sub   { font-size: clamp(14px, 1.7vw, 16px); color: #666; margin-bottom: 28px; }
 
 /* ── Progress dots ────────────────────────────────── */
 .progress-row { display: flex; align-items: center; gap: 8px; margin-bottom: 36px; flex-wrap: wrap; }
-.prog-dot { width: 10px; height: 10px; border-radius: 50%; background: #c5c8d4; transition: background 0.25s; flex-shrink: 0; }
-.prog-dot.active { background: #00329d; }
-.prog-dot.done   { background: #16a34a; }
+.prog-dot { width: 8px; height: 8px; border-radius: 50%; background: #c5c8d4; transition: background 0.25s; flex-shrink: 0; }
+.prog-dot.active { background: #bd5319; }
+.prog-dot.done   { background: #286dc0; }
 .prog-label      { font-size: 13px; color: #888; margin-left: 4px; }
 
 /* ── Screens ──────────────────────────────────────── */
@@ -39,63 +40,72 @@ body {
 
 /* ── Step header (no card) ────────────────────────── */
 .step-header { margin-bottom: 24px; }
-.step-tag   { font-size: 12px; font-weight: 700; color: #888; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 6px; }
-.step-title { font-size: clamp(19px, 2.3vw, 23px); font-weight: 700; color: #111; margin-bottom: 6px; }
+.step-tag   { font-size: 12px; font-weight: 600; color: #bd5319; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px; }
+.step-title { font-size: clamp(19px, 2.3vw, 23px); font-weight: 600; color: #00329d; margin-bottom: 6px; }
 .step-desc  { font-size: clamp(14px, 1.6vw, 16px); color: #555; line-height: 1.65; }
 
 /* ── Two-column layout ────────────────────────────── */
 .bs-two-col {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(20px, 4vw, 56px);
+  gap: clamp(8px, 2.5vw, 14px);
   margin-bottom: 28px;
   width: 100%;
 }
 
-.bs-column { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.bs-column { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
 
 .bs-col-label {
-  font-size: clamp(13px, 1.5vw, 15px); font-weight: 700;
-  color: #374151; margin-bottom: 6px;
+  font-size: 13px; font-weight: 600;
+  color: #00329d; text-transform: uppercase; letter-spacing: 0.4px;
+  text-align: center;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #00329d;
 }
 
-/* ── Outer box per BS column ──────────────────────── */
-.bs-col-box {
+/* ── Identity bar ─────────────────────────────────── */
+.identity-bar {
+  background: #00329d; color: white;
+  border-radius: 0 0 6px 6px;
+  padding: 8px 12px;
+  margin-bottom: 16px;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.id-group { text-align: center; }
+.id-label {
+  font-size: 9px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.5px; opacity: 0.7; display: block; margin-bottom: 1px;
+}
+.id-val { font-weight: 700; font-size: 14px; display: block; }
+.id-op { font-size: 14px; opacity: 0.55; align-self: flex-end; padding-bottom: 2px; }
+
+/* ── Section cards ────────────────────────────────── */
+.bs-section {
   background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: clamp(14px, 2vw, 22px);
-  width: 100%;
-}
-
-/* ── Sections inside the box ──────────────────────── */
-.bs-section { padding: 14px 0; }
-.bs-section:first-child { padding-top: 0; }
-.bs-section:last-child  { padding-bottom: 0; }
-.bs-section + .bs-section {
-  border-top: 1.5px solid #9ca3af;
-  margin-left: -10px;
-  margin-right: -10px;
-  padding-left: 10px;
-  padding-right: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 14px;
 }
 
 .bs-section-title {
-  font-size: 12px; font-weight: 700;
-  color: #00329d; letter-spacing: 0.8px;
-  text-transform: uppercase; margin-bottom: 10px;
+  font-size: 13px; font-weight: 600;
+  color: #00329d; letter-spacing: 0.4px;
+  text-transform: uppercase;
+  padding-bottom: 6px; margin-bottom: 10px;
+  border-bottom: 2px solid #00329d;
 }
 
 /* ── Line items ───────────────────────────────────── */
 .bs-item {
   display: flex; justify-content: space-between; align-items: baseline;
-  padding: 4px 0; font-size: clamp(13px, 1.5vw, 15px);
+  padding: 4px 2px; font-size: 14px;
+  border-radius: 3px;
 }
 
-.item-label { color: #374151; padding-right: 8px; }
+.item-label { color: #555; padding-right: 8px; }
 .item-value {
   font-variant-numeric: tabular-nums;
-  font-weight: 500; color: #111; white-space: nowrap;
+  font-weight: 600; color: #333; white-space: nowrap;
   /* Fixed padding matches .hl so row height never shifts */
   padding: 1px 7px;
   border-radius: 4px;
@@ -109,21 +119,21 @@ body {
 
 /* Total row */
 .bs-item.total-row {
-  border-top: 1px solid #d1d5db;
-  margin-top: 4px; padding-top: 8px;
+  border-top: 1px solid #ddd;
+  margin-top: 6px; padding-top: 8px;
 }
-.bs-item.total-row .item-label { font-weight: 700; color: #111; }
-.bs-item.total-row .item-value { font-weight: 700; }
+.bs-item.total-row .item-label { font-weight: 700; color: #00329d; }
+.bs-item.total-row .item-value { font-weight: 700; color: #00329d; }
 
 /* ── Delta summary (screen 5) ─────────────────────── */
 .delta-box {
   background: white; border: 1px solid #e5e7eb;
-  border-radius: 12px; padding: clamp(14px, 2vw, 22px);
+  border-radius: 6px; padding: clamp(14px, 2vw, 22px);
   margin-bottom: 24px; width: 100%;
 }
 .delta-box-label {
-  font-size: 12px; font-weight: 700; color: #00329d;
-  letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 14px;
+  font-size: 12px; font-weight: 600; color: #00329d;
+  letter-spacing: 0.4px; text-transform: uppercase; margin-bottom: 14px;
 }
 .delta-row {
   display: flex; align-items: baseline; gap: 10px;
@@ -141,9 +151,9 @@ body {
 
 /* ── Multiple choice card ─────────────────────────── */
 .mc-card {
-  background: white; border-radius: 12px;
+  background: white; border-radius: 8px;
+  border: 1px solid #e0e0e0;
   padding: clamp(16px, 2.5vw, 26px);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
   width: 100%;
 }
 .mc-q-row {
@@ -158,7 +168,7 @@ body {
 .mc-opts { display: flex; flex-direction: column; gap: 9px; margin-bottom: 18px; }
 
 .mc-opt {
-  border: 1.5px solid #e2e8f0; border-radius: 8px;
+  border: 1.5px solid #e2e8f0; border-radius: 6px;
   padding: clamp(10px, 1.5vw, 13px) clamp(12px, 1.8vw, 16px);
   cursor: pointer; font-size: clamp(14px, 1.6vw, 15px);
   font-weight: 500; color: #333;
@@ -183,7 +193,7 @@ body {
 
 /* ── Feedback ─────────────────────────────────────── */
 .feedback {
-  border-radius: 8px; padding: 12px 16px;
+  border-radius: 6px; padding: 12px 16px;
   font-size: clamp(14px, 1.6vw, 15px); line-height: 1.75;
   display: none; margin-bottom: 16px;
 }
@@ -195,17 +205,17 @@ body {
 .nav-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 
 .btn-back {
-  background: white; color: #555; border: 1.5px solid #d1d5db;
-  border-radius: 6px; padding: 10px 20px;
-  font-family: 'Inter', sans-serif; font-size: clamp(14px, 1.5vw, 15px); font-weight: 600;
+  background: white; color: #555; border: 1px solid #ddd;
+  border-radius: 4px; padding: 8px 20px;
+  font-family: Inter, system-ui, sans-serif; font-size: clamp(14px, 1.5vw, 15px); font-weight: 600;
   cursor: pointer; transition: border-color 0.15s, color 0.15s;
 }
 .btn-back:hover { border-color: #00329d; color: #00329d; }
 
 .btn-check {
   background: #00329d; color: white; border: none;
-  border-radius: 6px; padding: 10px 22px;
-  font-family: 'Inter', sans-serif; font-size: clamp(14px, 1.5vw, 15px); font-weight: 600;
+  border-radius: 4px; padding: 8px 22px;
+  font-family: Inter, system-ui, sans-serif; font-size: clamp(14px, 1.5vw, 15px); font-weight: 600;
   cursor: pointer; transition: background 0.15s; display: none;
 }
 .btn-check:hover  { background: #1a4db5; }
@@ -213,8 +223,8 @@ body {
 
 .btn-next {
   background: #16a34a; color: white; border: none;
-  border-radius: 6px; padding: 10px 22px;
-  font-family: 'Inter', sans-serif; font-size: clamp(14px, 1.5vw, 15px); font-weight: 600;
+  border-radius: 4px; padding: 8px 22px;
+  font-family: Inter, system-ui, sans-serif; font-size: clamp(14px, 1.5vw, 15px); font-weight: 600;
   cursor: pointer; transition: background 0.15s; display: none;
 }
 .btn-next:hover { background: #15803d; }
@@ -226,9 +236,9 @@ body {
 .next-page-hint.show { display: inline-block; }
 
 .btn-hint {
-  background: #eff6ff; color: #1d4ed8; border: 1.5px solid #bfdbfe;
-  border-radius: 6px; padding: 7px 16px;
-  font-family: 'Inter', sans-serif; font-size: clamp(13px, 1.4vw, 14px); font-weight: 600;
+  background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe;
+  border-radius: 4px; padding: 7px 16px;
+  font-family: Inter, system-ui, sans-serif; font-size: clamp(13px, 1.4vw, 14px); font-weight: 600;
   cursor: pointer; transition: background 0.15s, border-color 0.15s; white-space: nowrap;
 }
 .btn-hint:hover { background: #dbeafe; border-color: #93c5fd; }
@@ -243,16 +253,6 @@ body {
 <div class="page">
 
   <h1 class="page-title">The Balance Sheet</h1>
-  <p class="page-sub">Activity 1 &mdash; Learning to read and compare balance sheets</p>
-
-  <div class="progress-row">
-    <div class="prog-dot active" id="pd1"></div>
-    <div class="prog-dot" id="pd2"></div>
-    <div class="prog-dot" id="pd3"></div>
-    <div class="prog-dot" id="pd4"></div>
-    <div class="prog-dot" id="pd5"></div>
-    <span class="prog-label" id="progLabel">Step 1 of 5</span>
-  </div>
 
   <!-- ═══════════════════════════════════════
        SCREEN 1 — Both BS identical
@@ -447,22 +447,22 @@ function buildColumn(data, isClose, highlight) {
   return (
     '<div class="bs-section">'
     + '<div class="bs-section-title">Assets</div>'
-    + '<div class="bs-item"><span class="item-label">Cash Assets</span>'        + v(data.cash, false) + '</div>'
-    + '<div class="bs-item"><span class="item-label">Non-Cash Assets</span>'    + v(data.nca,  false) + '</div>'
-    + '<div class="bs-item total-row"><span class="item-label">Total Assets</span>' + v(totalA, ha) + '</div>'
+    + '<div class="bs-item"><span class="item-label">Cash assets</span>'        + v(data.cash, false) + '</div>'
+    + '<div class="bs-item"><span class="item-label">Non-cash assets</span>'    + v(data.nca,  false) + '</div>'
+    + '<div class="bs-item total-row"><span class="item-label">Total assets</span>' + v(totalA, ha) + '</div>'
     + '</div>'
 
     + '<div class="bs-section">'
     + '<div class="bs-section-title">Liabilities</div>'
-    + '<div class="bs-item"><span class="item-label">Bank Loan</span>'          + v(data.loan, false) + '</div>'
-    + '<div class="bs-item total-row"><span class="item-label">Total Liabilities</span>' + v(totalL, hl) + '</div>'
+    + '<div class="bs-item"><span class="item-label">Bank loan</span>'          + v(data.loan, false) + '</div>'
+    + '<div class="bs-item total-row"><span class="item-label">Total liabilities</span>' + v(totalL, hl) + '</div>'
     + '</div>'
 
     + '<div class="bs-section">'
     + '<div class="bs-section-title">Equities</div>'
-    + '<div class="bs-item"><span class="item-label">Contributed Capital</span>' + v(data.cs,  false) + '</div>'
-    + '<div class="bs-item"><span class="item-label">Retained Earnings</span>'  + v(data.re,  false) + '</div>'
-    + '<div class="bs-item total-row"><span class="item-label">Total Equities</span>' + v(totalE, hte) + '</div>'
+    + '<div class="bs-item"><span class="item-label">Contributed capital</span>' + v(data.cs,  false) + '</div>'
+    + '<div class="bs-item"><span class="item-label">Retained earnings</span>'  + v(data.re,  false) + '</div>'
+    + '<div class="bs-item total-row"><span class="item-label">Total equities</span>' + v(totalE, hte) + '</div>'
     + '</div>'
   );
 }
@@ -472,11 +472,11 @@ function buildGrid(containerId, openData, closeData, highlight) {
     '<div class="bs-two-col">'
     + '<div class="bs-column">'
     +   '<div class="bs-col-label">Opening Balance Sheet</div>'
-    +   '<div class="bs-col-box">' + buildColumn(openData, false, highlight) + '</div>'
+    +   buildColumn(openData, false, highlight)
     + '</div>'
     + '<div class="bs-column">'
     +   '<div class="bs-col-label">Closing Balance Sheet</div>'
-    +   '<div class="bs-col-box">' + buildColumn(closeData, true, highlight) + '</div>'
+    +   buildColumn(closeData, true, highlight)
     + '</div>'
     + '</div>';
 }
