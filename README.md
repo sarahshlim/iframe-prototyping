@@ -39,6 +39,7 @@ Prototype pages:
 - `https://sarahshlim.github.io/iframe-prototyping/homework.html`
 - `https://sarahshlim.github.io/iframe-prototyping/m4_articulate1_sarah.html`
 - `https://sarahshlim.github.io/iframe-prototyping/m4_balancesheet_sarah.html`
+- `https://sarahshlim.github.io/iframe-prototyping/m4_snapshot_change_sarah.html`
 
 ## Notes on workflow
 
