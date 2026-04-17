@@ -164,7 +164,7 @@
   /* ===== COLUMN HEADERS ===== */
   .bs-col-header {
     font-family: Inter, system-ui, sans-serif;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.4px;
@@ -193,7 +193,7 @@
   }
   .acct-col h4 {
     font-family: Inter, system-ui, sans-serif;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.4px;
@@ -206,7 +206,7 @@
     display: flex;
     justify-content: space-between;
     font-family: Inter, system-ui, sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     padding: 4px 2px;
     color: #555;
     border-radius: 3px;
@@ -279,7 +279,7 @@
   }
   .decomp-section h4 {
     font-family: Inter, system-ui, sans-serif;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.4px;
@@ -293,7 +293,7 @@
 
   .decomp-cat-label {
     font-family: Inter, system-ui, sans-serif;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.4px;
@@ -483,21 +483,21 @@
   }
   .sce-is-intro {
     font-family: Inter, system-ui, sans-serif;
-    font-size: 12px;
+    font-size: 13px;
     color: #555;
     margin: 6px 0 8px;
     line-height: 1.5;
   }
   .sce-is-panel {
-    background: #f5f3ff;
-    border: 1px solid #ddd6fe;
+    background: white;
+    border: 1px solid #e0e0e0;
     border-radius: 5px;
     padding: 10px 12px;
     margin-bottom: 6px;
   }
   .sce-is-title {
     font-family: Inter, system-ui, sans-serif;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.4px;
@@ -885,7 +885,7 @@ function StaticBalanceSheet({ data, highlight }) {
           <span>Contributed capital</span>
           <span className="acct-val">{fmt(data.contributed)}</span>
         </div>
-        <div className={'acct-line' + (hlEquity ? ' hl-equity' : '') + fc}>
+        <div className={'acct-line' + (hlEquity ? ' hl-equity' : '') + fc + fe}>
           <span>Retained earnings</span>
           <span className="acct-val">{fmt(data.retained)}</span>
         </div>
@@ -957,7 +957,7 @@ function CfsPanel() {
   }
 
   return (
-    <div className="decomp-section decomp-cfs" style={{ borderLeft: '3px solid #166534' }}>
+    <div className="decomp-section decomp-cfs">
       <h4>Cash Flow Statement</h4>
 
       <div className="decomp-cat-label">Operating</div>
@@ -985,7 +985,7 @@ function ScePanel({ interactive = true, startExpanded = false }) {
   const [isOpen, setIsOpen] = React.useState(startExpanded);
 
   return (
-    <div className="decomp-section decomp-sce" style={{ borderLeft: '3px solid #92400e' }}>
+    <div className="decomp-section decomp-sce">
       <h4>Statement of Changes in Equity</h4>
 
       <div className="decomp-line">
@@ -1406,10 +1406,6 @@ function GuidedArticulation() {
 
   return (
     <div>
-      <div className="page-intro">
-        <p>Page Intro Section Text</p>
-      </div>
-
       <div className="articulate-wrap">
 
         {/* Full-width intro card — renders above the grid for every stage */}
