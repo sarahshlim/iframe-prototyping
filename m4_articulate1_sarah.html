@@ -531,7 +531,7 @@
     margin: 0 0 12px;
     line-height: 1.55;
   }
-  .kc-q-num { color: var(--primary); margin-right: 4px; }
+  .kc-q-num { margin-right: 4px; }
   .kc-choices { display: flex; flex-direction: column; gap: 7px; }
   .kc-choice {
     text-align: left;
@@ -778,7 +778,7 @@ const STAGES = [
   { id: 'equity-path',     centerHeader: 'What Changed and Why: Equity',    label: 'The Equity Path'     },
   { id: 'net-income-path', centerHeader: 'What Changed and Why: Net Income',label: 'The Net Income Path' },
   { id: 'system',          centerHeader: 'What Changed and Why',            label: 'The Accounting System' },
-  { id: 'consolidate',     centerHeader: 'Reflect',                         label: 'Consolidate'         },
+  { id: 'consolidate',     centerHeader: 'Reflect',                         label: 'Practice'            },
 ];
 
 // ===== FORMATTERS =====
@@ -1133,55 +1133,35 @@ function StageSystem() {
 const KC_QUESTIONS = [
   {
     id: 'q1',
-    question: 'What do the opening and closing Balance Sheets show?',
-    choices: [
-      'They show the entity\'s financial position at two different points in time.',
-      'They explain every change that happened during the period.',
-      'They show only cash activity during the period.',
-      'They are the same as the Income Statement.',
-    ],
+    question: 'Question 1 (TBD)',
+    choices: ['Option A (TBD)', 'Option B (TBD)', 'Option C (TBD)', 'Option D (TBD)'],
     correct: 0,
-    correctFeedback: 'Correct. The opening and closing Balance Sheets are snapshots at two different points in time. They show that the entity changed over the period, but they do not by themselves explain every change.',
-    incorrectFeedback: 'Not quite. The opening and closing Balance Sheets are snapshots at two different points in time. They show that the entity changed over the period, but they do not by themselves explain every change.',
+    correctFeedback: 'Feedback (TBD)',
+    incorrectFeedback: 'Feedback (TBD)',
   },
   {
     id: 'q2',
-    question: 'What is the main purpose of the other statements in this activity?',
-    choices: [
-      'To repeat the same information shown in the Balance Sheets.',
-      'To give more detail about important parts of the change between the opening and closing Balance Sheets.',
-      'To show that only cash and equity can be explained.',
-      'To replace the Balance Sheets.',
-    ],
-    correct: 1,
-    correctFeedback: 'Correct. In this activity, the other statements give more detail about important parts of the change between the opening and closing Balance Sheets.',
-    incorrectFeedback: 'Not quite. In this activity, the other statements give more detail about important parts of the change between the opening and closing Balance Sheets.',
+    question: 'Question 2 (TBD)',
+    choices: ['Option A (TBD)', 'Option B (TBD)', 'Option C (TBD)', 'Option D (TBD)'],
+    correct: 0,
+    correctFeedback: 'Feedback (TBD)',
+    incorrectFeedback: 'Feedback (TBD)',
   },
   {
     id: 'q3',
-    question: 'Which statement best describes this activity?',
-    choices: [
-      'It shows every important account that appears in real financial statements.',
-      'It focuses only on cash and equity because other changes cannot be explained.',
-      'It uses simplified examples to help you see the structure more clearly.',
-      'It shows that the Income Statement is part of the Statement of Changes in Equities.',
-    ],
-    correct: 2,
-    correctFeedback: 'Correct. This activity uses simplified examples to help you see the structure more clearly. Real financial statements can include many more accounts, and other changes can also be explained.',
-    incorrectFeedback: 'Not quite. This activity uses simplified examples to help you see the structure more clearly. Real financial statements can include many more accounts, and other changes can also be explained.',
+    question: 'Question 3 (TBD)',
+    choices: ['Option A (TBD)', 'Option B (TBD)', 'Option C (TBD)', 'Option D (TBD)'],
+    correct: 0,
+    correctFeedback: 'Feedback (TBD)',
+    incorrectFeedback: 'Feedback (TBD)',
   },
   {
     id: 'q4',
-    question: 'In this activity, how should you understand the Income Statement?',
-    choices: [
-      'It is part of the Statement of Changes in Equities.',
-      'It gives more detail about the Net Income line.',
-      'It replaces the Statement of Changes in Equities.',
-      'It explains only liabilities.',
-    ],
-    correct: 1,
-    correctFeedback: 'Correct. In this activity, the Income Statement gives more detail about the Net Income line. In actual financial reporting, it is a separate statement.',
-    incorrectFeedback: 'Not quite. In this activity, the Income Statement gives more detail about the Net Income line. In actual financial reporting, it is a separate statement.',
+    question: 'Question 4 (TBD)',
+    choices: ['Option A (TBD)', 'Option B (TBD)', 'Option C (TBD)', 'Option D (TBD)'],
+    correct: 0,
+    correctFeedback: 'Feedback (TBD)',
+    incorrectFeedback: 'Feedback (TBD)',
   },
 ];
 
@@ -1243,15 +1223,6 @@ function StageConsolidate() {
           </div>
         );
       })}
-      <div className="kc-reflection">
-        <p className="kc-reflection-label">Optional reflection: In your own words, how do the statements connect?</p>
-        <textarea
-          value={val}
-          onChange={onChange}
-          onBlur={() => save(val)}
-          placeholder="Write your response here…"
-        />
-      </div>
     </div>
   );
 }
@@ -1367,7 +1338,7 @@ function StageIntroCard({ step }) {
       case 5:
         return (
           <div className="stage-text">
-            <p>You have now seen the overall structure of the system. Answer the questions below to check your understanding.</p>
+            <p>You have now seen the overall structure of the financial statements. Answer the questions below to check your understanding.</p>
           </div>
         );
       default:
@@ -1444,7 +1415,7 @@ function GuidedArticulation() {
           {/* Center: Stage content — hidden at Stage 0 */}
           {step > 0 && (
             <div>
-              <div className="bs-col-header">{stage.centerHeader}</div>
+              {step !== 5 && <div className="bs-col-header">{stage.centerHeader}</div>}
               <CenterPanel step={step} />
             </div>
           )}
