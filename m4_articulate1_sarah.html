@@ -854,7 +854,7 @@ const STAGES = [
   { id: 'net-income-mcq',  centerHeader: 'The Question',                    label: 'The Net Income Path'  },
   { id: 'net-income-path', centerHeader: 'What Changed and Why: Net Income',label: 'The Net Income Path'  },
   { id: 'system',          centerHeader: 'What Changed and Why',            label: 'The Accounting System'},
-  { id: 'consolidate',     centerHeader: 'Reflect',                         label: 'Practice'             },
+  { id: 'consolidate',     centerHeader: '',                                label: 'Practice'             },
 ];
 
 // ===== FORMATTERS =====
@@ -1504,7 +1504,7 @@ function StageIntroCard({ step, onSolveMcq, mcqSolved }) {
                 <div className="eq-formula">Net Income &minus; Distributions to Owners = Change in Total Equity</div>
               </div>
             </div>
-            <p style={{ marginTop: '14px' }}>One important line in this statement is <strong>Net Income</strong>. In the next stage, you will identify which financial statement gives more detail about how this figure was determined.</p>
+            <p style={{ marginTop: '14px' }}>One important line in this statement is <strong>Net Income</strong>. Next, we will look at that line in more detail.</p>
           </div>
         );
       case 5:
